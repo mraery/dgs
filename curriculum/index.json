@@ -1,0 +1,730 @@
+[
+  {
+    "id": "dgs_geo_u1",
+    "unitNumber": 11,
+    "title": "Üçgenler & Özel Dik Üçgenler",
+    "subject": "DGS Geometri",
+    "colorHex": 4279286145,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_geo_u1_l1",
+        "title": "Özel Dik Üçgenler ve Alan",
+        "description": "Pisagor bağıntısı, 3-4-5, 5-12-13, 8-15-17, 30-60-90 ve Öklid",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_geo_u1_l2",
+        "title": "Üçgenler Kupa Sınavı 🏆",
+        "description": "DGS Üçgende Benzerlik ve Alan Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_geo_u2",
+    "unitNumber": 12,
+    "title": "Çokgenler, Dörtgenler & Analitik",
+    "subject": "DGS Geometri",
+    "colorHex": 4279286145,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_geo_u2_l1",
+        "title": "Dörtgenler ve Analitik Düzlem",
+        "description": "Paralelkenar, dikdörtgen, eğim ve iki nokta arası uzaklık",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_geo_u2_l2",
+        "title": "Geometri Kupa Sınavı 🏆",
+        "description": "DGS Dörtgenler ve Analitik Karma Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_grafik_u1",
+    "unitNumber": 8,
+    "title": "Tablo ve Grafik Yorumlama",
+    "subject": "DGS Problemler",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_grf_l1",
+        "title": "Daire ve Sütun Grafik Dönüşümleri",
+        "description": "360 derecelik daire grafiği, yüzde hesapları ve sütun grafiği okuma",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_grf_l2",
+        "title": "Tablo ve Grafik DGS Sınavı 🏆",
+        "description": "Çoklu grafik soruları ve DGS sınav formatında deneme",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_hareket_u2",
+    "unitNumber": 27,
+    "title": "Hareket Problemleri Bölüm 2: Dairesel Pist ve Akıntı",
+    "subject": "DGS Problemler",
+    "colorHex": 4293571336,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_har2_l1",
+        "title": "Dairesel Pist, Tren-Tünel ve Nehir-Akıntı Problemleri",
+        "description": "Zıt ve aynı yönlü dairesel hareket, trenin boyu ve akıntı hızı formülleri",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_har2_l2",
+        "title": "Hareket Problemleri DGS Sınavı 🏆",
+        "description": "DGS sınav standardında karma hareket problemleri kupa sınavı",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_katlama_u1",
+    "unitNumber": 3,
+    "title": "Katlama, Kesme & Katı Cisimler",
+    "subject": "DGS Geometri",
+    "colorHex": 4293675161,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_kat_l1",
+        "title": "Geometrik Katlama ve Simetri İlkeleri",
+        "description": "Katlama çizgisi açıortaydır, kenar ve açılar aynen korunur",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_kat_l2",
+        "title": "Katı Cisimler DGS Sınavı 🏆",
+        "description": "Küp açılımları, prizmada karınca yürüme ve katlama denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mantik_u1",
+    "unitNumber": 15,
+    "title": "Sözel Mantık & Tablo Kurma",
+    "subject": "DGS Sözel Mantık",
+    "colorHex": 4294286859,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mantik_u1_l1",
+        "title": "Sözel Mantık Tablo Stratejisi",
+        "description": "DGS 8 soruluk sözel mantık grubu için tablo kurma teknikleri",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mantik_u1_l2",
+        "title": "Sözel Mantık Kupa Sınavı 🏆",
+        "description": "DGS Tam Kapsamlı Sözel Mantık Grubu Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u1",
+    "unitNumber": 1,
+    "title": "Temel Kavramlar & Sayı Kümeleri",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u1_l1",
+        "title": "Tek-Çift ve Pozitif-Negatif Sayılar",
+        "description": "DGS sınavının her yıl çıkan temel sayı özellikleri",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u1_l2",
+        "title": "Temel Kavramlar Kupa Sınavı 🏆",
+        "description": "DGS Asal Sayılar ve Faktöriyel Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u10",
+    "unitNumber": 10,
+    "title": "Fonksiyonlar ve Özel İşlemler",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u10_l1",
+        "title": "Fonksiyon Tanımı, Değer Bulma ve Bileşke",
+        "description": "f(x) formülü, birebir-örtenlik ve (fog)(x) bileşke işlemi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u10_l2",
+        "title": "Fonksiyonlar ve Özel İşlemler Sınavı 🏆",
+        "description": "DGS çıkmış soru formatında bileşke ve işlem soruları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u2",
+    "unitNumber": 2,
+    "title": "Sayı Basamakları & Bölünebilme",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u2_l1",
+        "title": "Basamak Çözümleme ve Bölme Kuralları",
+        "description": "AB = 10A + B çözümlemesi ve 3, 4, 8, 9, 11 kuralları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u2_l2",
+        "title": "Bölünebilme Kupa Sınavı 🏆",
+        "description": "DGS Sayı Basamakları Karma Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u3",
+    "unitNumber": 3,
+    "title": "Rasyonel ve Ondalık Sayılar",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u3_l1",
+        "title": "Kesirlerde İşlemler ve Merdivenli İfadeler",
+        "description": "DGS'de her yıl 2-3 soru çıkan standart işlem önceliği soruları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u3_l2",
+        "title": "Rasyonel Sayılar Kupa Sınavı 🏆",
+        "description": "DGS Merdivenli Kesirler ve Sıralama Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u4",
+    "unitNumber": 4,
+    "title": "Basit Eşitsizlikler & Mutlak Değer",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u4_l1",
+        "title": "Eşitsizlik Özellikleri ve Mutlak Değer",
+        "description": "Eşitsizliği eksiyle çarpma yön değişimi ve mutlak değerli denklemler",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u4_l2",
+        "title": "Eşitsizlik & Mutlak Değer Kupa Sınavı 🏆",
+        "description": "DGS Aralık Çözümü ve Kritik Nokta Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u5",
+    "unitNumber": 5,
+    "title": "Üslü ve Köklü İfadeler",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u5_l1",
+        "title": "Üs Kuralları ve Köklü Sayılar",
+        "description": "Üslü denklem çözümleri, payda eşleniği ve kök derecesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u5_l2",
+        "title": "Üslü & Köklü Sayılar Kupa Sınavı 🏆",
+        "description": "DGS İleri Düzey Üslü-Köklü Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u6",
+    "unitNumber": 6,
+    "title": "Çarpanlara Ayırma ve Özdeşlikler",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u6_l1",
+        "title": "Özdeşlikler ve Sadeleştirme",
+        "description": "DGS sadeleştirme ve küp açılımları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u6_l2",
+        "title": "Çarpanlara Ayırma Kupa Sınavı 🏆",
+        "description": "DGS İleri Düzey Sadeleştirme Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u8",
+    "unitNumber": 8,
+    "title": "İşçi ve Havuz Mantığı",
+    "subject": "DGS Problemler",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u8_l1",
+        "title": "Birim Zaman Formülleri ve Birlikte Çalışma",
+        "description": "1/t1 + 1/t2 = 1/T formülü ve kapasite oranları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u8_l2",
+        "title": "İşçi Mantığı ve Kapasite Sınavı 🏆",
+        "description": "DGS sınav formatında iş bırakma ve kapasite değişimi soruları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_mat_u9",
+    "unitNumber": 9,
+    "title": "Kümeler ve Kartezyen Çarpım",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mat_u9_l1",
+        "title": "Kümelerde Birleşim, Kesişim ve Fark",
+        "description": "Venn şeması, alt küme formülü (2^n) ve küme problemleri",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mat_u9_l2",
+        "title": "Kümeler ve Kartezyen Çarpım Sınavı 🏆",
+        "description": "DGS formatında küme problemleri ve kartezyen grafikler",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_moduler_u1",
+    "unitNumber": 8,
+    "title": "Modüler Aritmetik & Periyodik Durumlar",
+    "subject": "DGS Temel Matematik",
+    "colorHex": 4278355143,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_mod_l1",
+        "title": "Periyodik Tekrarlar, Gün ve Saat Problemleri",
+        "description": "Haftanın günleri, nöbet döngüleri, dairesel sıralamalar",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_mod_l2",
+        "title": "Modüler Aritmetik DGS Sınavı 🏆",
+        "description": "Kuvvet modları ve karmaşık nöbet problemleri",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_prob_har_u1",
+    "unitNumber": 7,
+    "title": "Hareket ve Hız Problemleri",
+    "subject": "DGS Problemler",
+    "colorHex": 4287323382,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_prob_har_l1",
+        "title": "Hız Formülü, Karşılaşma ve Yakalama",
+        "description": "x = v.t, zıt yönde hızlar toplamı, aynı yönde hızlar farkı",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_prob_har_l2",
+        "title": "Hız ve Hareket Problemleri Sınavı 🏆",
+        "description": "DGS sınav formatında karmaşık hız senaryoları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_prob_u1",
+    "unitNumber": 7,
+    "title": "Sayı ve Kesir Problemleri",
+    "subject": "DGS Problemler",
+    "colorHex": 4278630100,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_prob_u1_l1",
+        "title": "Denklem Kurma ve Kesir Mantığı",
+        "description": "Telin ucundan kesme, kuyruk ve merdiven problemleri",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_prob_u1_l2",
+        "title": "Sayı-Kesir Kupa Sınavı 🏆",
+        "description": "DGS Yeni Nesil Problem Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_prob_u2",
+    "unitNumber": 8,
+    "title": "Yaş Problemleri",
+    "subject": "DGS Problemler",
+    "colorHex": 4278630100,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_prob_u2_l1",
+        "title": "Yaş Farkı Sabiti ve Zaman Bağıntıları",
+        "description": "Kişiler arasındaki yaş farkının yıllar geçse de asla değişmemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_prob_u2_l2",
+        "title": "Yaş Problemleri Kupa Sınavı 🏆",
+        "description": "DGS Karma Yaş Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_prob_u3",
+    "unitNumber": 9,
+    "title": "Yüzde, Kâr-Zarar ve Karışım",
+    "subject": "DGS Problemler",
+    "colorHex": 4278630100,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_prob_u3_l1",
+        "title": "Maliyet, Etiket ve İskonto Hesapları",
+        "description": "Maliyete 100x deme taktiği ve karışım yüzdesi formülü",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_prob_u3_l2",
+        "title": "Yüzde-Karışım Kupa Sınavı 🏆",
+        "description": "DGS Enflasyon, Kuruma ve Karışım Karma Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_prob_u4",
+    "unitNumber": 10,
+    "title": "Hız-Hareket ve Grafik Problemleri",
+    "subject": "DGS Problemler",
+    "colorHex": 4278630100,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_prob_u4_l1",
+        "title": "Hız Bağıntıları ve Karşılaşma/Yetişme",
+        "description": "Yol = Hız × Zaman, zıt ve aynı yönlü hareket, tren-tünel",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_prob_u4_l2",
+        "title": "Hız ve Grafik Kupa Sınavı 🏆",
+        "description": "DGS Daire/Sütun Grafik ve Hareket Karma Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_say_u1",
+    "unitNumber": 16,
+    "title": "Sayısal Mantık & Akıl Yürütme",
+    "subject": "DGS Sayısal Mantık",
+    "colorHex": 4294286859,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_say_u1_l1",
+        "title": "Şekil Yetenek ve Sayı Örüntüleri",
+        "description": "DGS sayısal mantık, işlem tabloları, çarklar ve küp açılımları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_say_u1_l2",
+        "title": "Sayısal Mantık Kupa Sınavı 🏆",
+        "description": "DGS Sayısal Mantık Karma Akıl Yürütme Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_sayisal_mantik_u2",
+    "unitNumber": 26,
+    "title": "Sayısal Mantık Bölüm 2: Şekil Yeteneği ve Sayı Dizileri",
+    "subject": "DGS Sayısal Mantık",
+    "colorHex": 4278630100,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_sm2_l1",
+        "title": "Sayı Dizileri, Matrisler ve Şekil Örüntüleri",
+        "description": "ÖSYM DGS sayısal akıl yürütme, küp açınımları ve kural tanımlama",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_sm2_l2",
+        "title": "Sayısal Akıl Yürütme DGS Sınavı 🏆",
+        "description": "DGS formatında yeni nesil sayısal mantık sınavı",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_soz_u1",
+    "unitNumber": 13,
+    "title": "Sözcük ve Cümlede Anlam",
+    "subject": "DGS Sözel Anlam",
+    "colorHex": 4293675161,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_soz_u1_l1",
+        "title": "Kesin Yargı, Örtülü Anlam ve Deyimler",
+        "description": "DGS sözel bölümünün ilk 10 sorusunu oluşturan anlam analizi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_soz_u1_l2",
+        "title": "Cümlede Anlam Kupa Sınavı 🏆",
+        "description": "DGS Anlatım İlkeleri ve Cümle Yorumu Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_soz_u2",
+    "unitNumber": 14,
+    "title": "Paragrafta Yapı, Akış ve Ana Düşünce",
+    "subject": "DGS Paragraf",
+    "colorHex": 4293675161,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_soz_u2_l1",
+        "title": "Akışı Bozan Cümle ve Paragrafı İkiye Bölme",
+        "description": "DGS uzun paragraf yapıları, akış ve yer değiştirme soruları",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_soz_u2_l2",
+        "title": "Paragraf Kupa Sınavı 🏆",
+        "description": "DGS Sözel Hız ve Anlama Denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_sozel_anlatim_u1",
+    "unitNumber": 3,
+    "title": "Cümle Analizi & Anlatım İlkeleri",
+    "subject": "DGS Türkçe",
+    "colorHex": 4279286145,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_cma_l1",
+        "title": "Cümlede Anlam İlişkileri ve Yargılar",
+        "description": "Neden-sonuç, amaç-sonuç, koşul, içerik ve üslup cümleleri",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_cma_l2",
+        "title": "Cümle Analizi DGS Sınavı 🏆",
+        "description": "Örtük anlam, doğrudan-dolaylı anlatım ve kesin çıkarım denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_sozel_mantik_u2",
+    "unitNumber": 28,
+    "title": "Sözel Mantık Bölüm 2: Sıralama ve Gruplama Problemleri",
+    "subject": "DGS Sözel Bölüm",
+    "colorHex": 4279286145,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_som2_l1",
+        "title": "Sıralama, Masaya Oturma ve Kat Tabloları",
+        "description": "DGS 4'lü ve 8'li sözel mantık soru kalıpları, kesin yargı ve olasılıklar",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_som2_l2",
+        "title": "Sözel Mantık DGS Kupa Sınavı 🏆",
+        "description": "ÖSYM DGS sınav formatında 4'lü soru grubu denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  },
+  {
+    "id": "dgs_sozel_paragraf_u2",
+    "unitNumber": 2,
+    "title": "Çoklu Paragraf Analizi",
+    "subject": "DGS Türkçe",
+    "colorHex": 4279286145,
+    "lessonCount": 2,
+    "lessons": [
+      {
+        "id": "dgs_cp_l1",
+        "title": "Tek Parçaya Bağlı Çoklu Sorular",
+        "description": "Ana fikir, yardımcı fikir ve çıkarım sorularını tek metinde çözme",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": false
+      },
+      {
+        "id": "dgs_cp_l2",
+        "title": "Çoklu Paragraf DGS Sınavı 🏆",
+        "description": "DGS formatında metin tahlili ve muhakeme denemesi",
+        "xpReward": 50,
+        "gemReward": 10,
+        "isUnitExam": true
+      }
+    ]
+  }
+]
