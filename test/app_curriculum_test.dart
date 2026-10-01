@@ -17,22 +17,22 @@ void main() {
       expect(config.calculateNet(1, 4), equals(0.0));
     });
 
-    test('DGS Quest 28 ünite, 56 ders ve 450+ sorudan oluşur', () {
+    test('DGS Quest 28 ünite, 196 ders ve 30.000+ sorudan oluşur', () {
       expect(mockUnits.length, equals(28));
       final totalLessons = mockUnits.expand((u) => u.lessons).length;
       final totalQuestions = mockUnits.expand((u) => u.lessons).expand((l) => l.questions).length;
 
-      expect(totalLessons, equals(56));
-      expect(totalQuestions, greaterThanOrEqualTo(450));
+      expect(totalLessons, equals(196));
+      expect(totalQuestions, greaterThanOrEqualTo(30000));
     });
 
-    test('Her derste 8-12 soru bulunur, ilk soru kavram kartıdır ve son ders kupa sınavıdır', () {
+    test('Her ünitede en az 7 ders bulunur, ilk soru kavram kartıdır ve son ders kupa sınavıdır', () {
       for (final unit in mockUnits) {
-        expect(unit.lessons.length, equals(2));
+        expect(unit.lessons.length, greaterThanOrEqualTo(7));
         expect(unit.lessons.last.isUnitExam, isTrue, reason: '${unit.title} son dersi kupa sınavı olmalı');
 
         for (final lesson in unit.lessons) {
-          expect(lesson.questions.length >= 8 && lesson.questions.length <= 12, isTrue,
+          expect(lesson.questions.length, greaterThanOrEqualTo(100),
               reason: '${lesson.title} dersinde ${lesson.questions.length} soru var');
           expect(lesson.questions.first.type, equals(QuestionType.conceptCard),
               reason: '${lesson.title} ilk adımı kavram kartı olmalı');
