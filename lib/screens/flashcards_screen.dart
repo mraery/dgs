@@ -990,6 +990,36 @@ final List<Flashcard> defaultFlashcards = [
     example: "Ruben ve Kamen'in ağır oksijen izotopu (18O) deneyinde sadece suyun oksijeni işaretlendiğinde atmosfere verilen O2'nin işaretli olduğu kanıtlanmıştır.",
     examTip: "Karbondioksitteki (CO2) oksijen ise üretilen glikozun (C6H12O6) ve açığa çıkan metabolik suyun yapısına katılır!",
   ),
+  // ==========================================
+  // DGS SAYISAL & SÖZEL MANTIK KARTLARI
+  // ==========================================
+  const Flashcard(
+    id: "fc_dgs_say_1",
+    subject: "DGS Sayısal Mantık",
+    category: "Tablo & Grafik Yorumlama",
+    term: "Daire Grafiği (360°) & Yüzde Dönüşümü",
+    meaning: "Daire grafiğinde 360° tamamı (%100) temsil eder. Her %10'luk dilim merkez açıda 36°'ye, her %5'lik dilim 18°'ye karşılık gelir.",
+    example: "Merkez açısı 72° olan bir ürün tüm üretimin 72/360 = 1/5'ini (%20'sini) oluşturur.",
+    examTip: "DGS grafik sorularında büyük sayılarla işlem yapmak yerine açıların EBOB'unu alarak kat (k) ver!",
+  ),
+  const Flashcard(
+    id: "fc_dgs_soz_1",
+    subject: "DGS Sözel Mantık",
+    category: "Sıralama & Yerleştirme",
+    term: "Sabit Eksenli Tablo Kurma Kuralı",
+    meaning: "Sözel mantık hikayelerinde kişi sayısı çok, gün/kat/sıra sayısı sabitse tabloda sabit olanlar üst satıra yazılır ve kesin öncüller ilk önce yerleştirilir.",
+    example: "'Ali 3. sırada değildir' gibi olumsuz öncüller tabloya hemen yazılmaz, kenara not edilir; kesin bilgilerden sonra elenir.",
+    examTip: "İhtimalli öncüllerde ('Ayşe veya Burak') tablonun altını iki satıra (İhtimal 1 / İhtimal 2) bölerek ilerle!",
+  ),
+  const Flashcard(
+    id: "fc_dgs_geo_1",
+    subject: "DGS Geometri",
+    category: "Üçgenler & Çokgenler",
+    term: "Özel Dik Üçgenler & Muhteşem Üçlü",
+    meaning: "Dik üçgende 90°'lik açıdan hipotenüse indirilen kenarortay uzunluğu, hipotenüsün yarısına eşittir (Muhteşem Üçlü).",
+    example: "Kenarlarına göre özel üçgenler: 3-4-5, 5-12-13, 8-15-17, 7-24-25 ve bunların tam katları.",
+    examTip: "DGS'de dik üçgen içinde kenarortay gördüğün an üçüncü eşit çizgiyi hemen sen koy!",
+  ),
 ];
 
 class FlashcardsScreen extends ConsumerStatefulWidget {
@@ -1013,20 +1043,12 @@ class _FlashcardsScreenState extends ConsumerState<FlashcardsScreen>
   String _selectedFilterSubject = 'Tümü';
   final List<String> _filterSubjects = const [
     'Tümü',
-    'TYT Biyoloji',
-    'TYT Türkçe',
+    'DGS Sayısal Mantık',
+    'DGS Sözel Mantık',
+    'DGS Geometri',
     'TYT Matematik',
-    'TYT Fizik',
-    'TYT Kimya',
-    'TYT Tarih',
-    'TYT Coğrafya',
-    'TYT Felsefe',
-    'TYT Din Kültürü',
+    'TYT Türkçe',
     'AYT Matematik',
-    'AYT Edebiyat',
-    'AYT Fizik',
-    'AYT Kimya',
-    'AYT Biyoloji',
   ];
 
   // 3D Flip Animasyonu

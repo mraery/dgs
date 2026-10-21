@@ -7,8 +7,6 @@ import '../widgets/duo_button.dart';
 import 'flashcards_screen.dart';
 import 'fast_reflex_screen.dart';
 import 'quiz_screen.dart';
-import 'fast_reflex_screen.dart';
-import 'splash_mascot_screen.dart';
 
 class PracticeScreen extends ConsumerWidget {
   const PracticeScreen({super.key});
@@ -101,8 +99,8 @@ class PracticeScreen extends ConsumerWidget {
             // Hızlı Pratik Modu Kartı
             _buildActionCard(
               context: context,
-              title: 'Hızlı Soru Pratiği',
-              subtitle: 'DGS Sayısal ve Sözel karışık mini soru seti çöz, hem XP hem de +1 Can kazan.',
+              title: 'Hızlı Soru Pratiği (10 Soru)',
+              subtitle: 'DGS Sayısal ve Sözel Mantık karışık 10 soruluk set çöz, hem XP hem de +1 Can kazan.',
               icon: Icons.flash_on_rounded,
               iconColor: const Color(0xFFFF9600),
               buttonText: 'PRATİĞE BAŞLA',
@@ -114,7 +112,7 @@ class PracticeScreen extends ConsumerWidget {
                     .where((q) => q.type != QuestionType.conceptCard)
                     .toList();
                 allQuizQuestions.shuffle();
-                final practiceQuestions = allQuizQuestions.take(3).toList();
+                final practiceQuestions = allQuizQuestions.take(10).toList();
 
                 // Karışık pratik dersi oluştur
                 final practiceLesson = Lesson(
@@ -143,7 +141,7 @@ class PracticeScreen extends ConsumerWidget {
             _buildActionCard(
               context: context,
               title: 'Kartlarla Pekiştir 🎴',
-              subtitle: 'Kavram kartını çevir, anlamını öğren. Sağa atarak öğrendim de, sola atarak tekrar listene ekle!',
+              subtitle: 'DGS Sayısal Mantık, Sözel Mantık ve Geometri kavram kartlarını çevir, formülleri pekiştir!',
               icon: Icons.style_rounded,
               iconColor: const Color(0xFF7C3AED),
               buttonText: 'KARTLARI ÇEVİR',
@@ -174,7 +172,7 @@ class PracticeScreen extends ConsumerWidget {
                     .expand((l) => l.questions)
                     .where((q) => q.type != QuestionType.conceptCard)
                     .toList();
-                final mistakeQuestions = allQuestions.take(2).toList();
+                final mistakeQuestions = allQuestions.take(5).toList();
 
                 final mistakeLesson = Lesson(
                   id: 'practice_mistakes',
@@ -194,9 +192,9 @@ class PracticeScreen extends ConsumerWidget {
 
             const SizedBox(height: 24),
 
-            // Günün KPSS Hap Bilgisi
+            // Günün DGS Hap Bilgisi
             const Text(
-              'GÜNÜN KPSS HAP BİLGİSİ 💡',
+              'GÜNÜN DGS HAP BİLGİSİ 💡',
               style: TextStyle(
                 fontWeight: FontWeight.w900,
                 fontSize: 14,
@@ -220,14 +218,14 @@ class PracticeScreen extends ConsumerWidget {
                       Icon(Icons.lightbulb_rounded, color: Color(0xFFFFC800), size: 24),
                       SizedBox(width: 8),
                       Text(
-                        'Amasya Genelgesi Püf Noktası',
+                        'Sayısal & Sözel Mantık Püf Noktası',
                         style: TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
                       ),
                     ],
                   ),
                   SizedBox(height: 8),
                   Text(
-                    '"Milletin bağımsızlığını yine milletin azim ve kararı kurtaracaktır" maddesi hem yöntemi belirtir hem de ilk kez ulusal egemenlikten üstü kapalı bahseder.',
+                    'DGS Sözel Mantık tablolarında daima sayısı az ve sabit olan değişkeni (günler, katlar veya sıralar) tablonun ana başlığı yap! Sayısal mantıkta ise ilk soruda bulduğun kuralı diğer öncüllere taşıyarak süreden %50 tasarruf edebilirsin.',
                     style: TextStyle(fontSize: 14, color: Color(0xFF4B4B4B), height: 1.4),
                   ),
                 ],
