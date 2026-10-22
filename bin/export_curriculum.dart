@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_relative_lib_imports, avoid_print
 import 'dart:convert';
 import 'dart:io';
 import '../lib/data/dgs_units.dart';
