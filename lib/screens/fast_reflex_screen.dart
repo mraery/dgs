@@ -265,6 +265,102 @@ final List<ReflexQuestion> dgsReflexBank = [
     memoryCode: "Akışı bozan cümle farklı bir düşünceye geçer veya konuyu saptırır!",
     subject: "DGS Sözel Anlam",
   ),
+  const ReflexQuestion(
+    prompt: "Daire grafiğinde tamamı kaç derecelik merkez açı ile temsil edilir?",
+    triggerWord: "Daire Grafiği 360°",
+    correctAnswer: "360 Derece",
+    wrongOptions: [
+      "180 Derece",
+      "100 Derece",
+      "270 Derece"
+    ],
+    memoryCode: "Dairenin tamamı 360° = %100! 36° = %10 dilimdir!",
+    subject: "DGS Sayısal Mantık",
+  ),
+  const ReflexQuestion(
+    prompt: "İki ardışık tek pozitif tam sayının EBOB'u daima kaçtır?",
+    triggerWord: "Ardışık Tek EBOB",
+    correctAnswer: "1 (Aralarında Asaldır)",
+    wrongOptions: [
+      "2 Sayısı",
+      "Sayıların Çarpımı",
+      "Sayıların Toplamı"
+    ],
+    memoryCode: "Ardışık tek sayılar aralarında asaldır, EBOB = 1!",
+    subject: "DGS Temel Matematik",
+  ),
+  const ReflexQuestion(
+    prompt: "Benzerlik oranı k olan iki geometrik şeklin ALANLARI oranı nedir?",
+    triggerWord: "Benzerlik Alan Oranı (k²)",
+    correctAnswer: "Benzerlik Oranının Karesidir (k²)",
+    wrongOptions: [
+      "Benzerlik oranına eşittir (k)",
+      "Benzerlik oranının küpüdür (k³)",
+      "Benzerlik oranının 2 katıdır (2k)"
+    ],
+    memoryCode: "Çevreler oranı k ise, ALANLAR ORANI k² olur!",
+    subject: "DGS Geometri",
+  ),
+  const ReflexQuestion(
+    prompt: "Bir küp açınımında aralarında tam 1 kare bulunan yüzler kapatılınca ne olur?",
+    triggerWord: "Küp Karşılıklı Yüzler",
+    correctAnswer: "Karşı Karşıya (Paralel) Gelir",
+    wrongOptions: [
+      "Yan yana komşu olurlar",
+      "Üst üste binerler",
+      "Birbirine dik olurlar"
+    ],
+    memoryCode: "Aralarında 1 kare boşluk olan yüzler küpte KARŞILIKLI yüzlerdir!",
+    subject: "DGS Sayısal Mantık",
+  ),
+  const ReflexQuestion(
+    prompt: "Ters orantılı iki çokluk arasında hangi işlem sabittir?",
+    triggerWord: "Ters Orantı Çarpım",
+    correctAnswer: "Çarpımları Sabittir (x · y = k)",
+    wrongOptions: [
+      "Bölümleri sabittir (x / y = k)",
+      "Toplamları sabittir (x + y = k)",
+      "Farkları sabittir (x - y = k)"
+    ],
+    memoryCode: "Ters orantıda ÇARPIM sabit, doğru orantıda BÖLÜM sabittir!",
+    subject: "DGS Problemler",
+  ),
+  const ReflexQuestion(
+    prompt: "Sözel mantıkta 'A, B'nin hemen sonrasındadır' ifadesi ne anlama gelir?",
+    triggerWord: "Hemen Sonrası Blok Kuralı",
+    correctAnswer: "A ve B Bitişiktir, Araya Kimse Giremez [B][A]",
+    wrongOptions: [
+      "Araya sadece bir kişi girebilir",
+      "A, B'den herhangi bir sıra sonradır",
+      "A ve B aynı gün nöbet tutamaz"
+    ],
+    memoryCode: "'Hemen' kelimesi blok yapmayı zorunlu kılar: [B][A]!",
+    subject: "DGS Sözel Mantık",
+  ),
+  const ReflexQuestion(
+    prompt: "n kenarlı bir çokgenin iç açıları toplamı hangi formülle bulunur?",
+    triggerWord: "Çokgen İç Açı Formülü",
+    correctAnswer: "(n - 2) × 180°",
+    wrongOptions: [
+      "n × 180°",
+      "(n - 2) × 360°",
+      "(n + 2) × 180°"
+    ],
+    memoryCode: "İç açılar: (n - 2) x 180°, Dış açılar toplamı DAİMA 360°!",
+    subject: "DGS Geometri",
+  ),
+  const ReflexQuestion(
+    prompt: "DGS ÖSYM kuralına göre net hesabı yapılırken kaç yanlış 1 doğruyu götürür?",
+    triggerWord: "DGS Net Kuralı (4Y = 1D)",
+    correctAnswer: "4 Yanlış 1 Doğruyu Götürür (Net = D - Y/4)",
+    wrongOptions: [
+      "3 Yanlış 1 Doğruyu Götürür",
+      "Yanlışlar doğruyu etkilemez",
+      "5 Yanlış 1 Doğruyu Götürür"
+    ],
+    memoryCode: "DGS ÖSYM kuralı: 4 yanlış 1 doğruyu götürür (Net = D - Y / 4)!",
+    subject: "DGS Temel Matematik",
+  ),
 ];
 
 class FastReflexScreen extends ConsumerStatefulWidget {

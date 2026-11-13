@@ -17,6 +17,8 @@ class TrueFalseWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 48),
       child: Column(
@@ -25,16 +27,19 @@ class TrueFalseWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: const Color(0xFFF7F7F7),
+              color: isDark ? const Color(0xFF1E1E26) : const Color(0xFFF7F7F7),
               borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: const Color(0xFFE5E5E5), width: 2),
+              border: Border.all(
+                color: isDark ? const Color(0xFF2E2E3C) : const Color(0xFFE5E5E5),
+                width: 2,
+              ),
             ),
             child: Text(
               question.prompt,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: Color(0xFF4B4B4B),
+                color: isDark ? const Color(0xFFF4F4F5) : const Color(0xFF4B4B4B),
                 height: 1.4,
               ),
             ),
@@ -51,6 +56,7 @@ class TrueFalseWidget extends StatelessWidget {
                   icon: Icons.check_circle_rounded,
                   color: const Color(0xFF58CC02),
                   lightBg: const Color(0xFFD7FFB8),
+                  isDark: isDark,
                 ),
               ),
               const SizedBox(width: 16),
@@ -62,6 +68,7 @@ class TrueFalseWidget extends StatelessWidget {
                   icon: Icons.cancel_rounded,
                   color: const Color(0xFFFF4B4B),
                   lightBg: const Color(0xFFFFDFE0),
+                  isDark: isDark,
                 ),
               ),
             ],
@@ -78,29 +85,30 @@ class TrueFalseWidget extends StatelessWidget {
     required IconData icon,
     required Color color,
     required Color lightBg,
+    required bool isDark,
   }) {
     final isSelected = selectedValue == value;
     final isCorrectChoice = isChecked && question.isTrue == value;
     final isWrongChoice = isChecked && isSelected && !isCorrectChoice;
 
-    Color borderColor = const Color(0xFFE5E5E5);
-    Color bgColor = Colors.white;
-    Color textColor = const Color(0xFF4B4B4B);
+    Color borderColor = isDark ? const Color(0xFF2E2E3C) : const Color(0xFFE5E5E5);
+    Color bgColor = isDark ? const Color(0xFF1E1E26) : Colors.white;
+    Color textColor = isDark ? const Color(0xFFF4F4F5) : const Color(0xFF4B4B4B);
 
     if (isChecked) {
       if (isCorrectChoice) {
-        borderColor = const Color(0xFF58CC02);
-        bgColor = const Color(0xFFD7FFB8);
-        textColor = const Color(0xFF58A700);
+        borderColor = const Color(0xFF10B981);
+        bgColor = isDark ? const Color(0xFF064E3B) : const Color(0xFFD7FFB8);
+        textColor = isDark ? const Color(0xFFA7F3D0) : const Color(0xFF58A700);
       } else if (isWrongChoice) {
         borderColor = const Color(0xFFFF4B4B);
-        bgColor = const Color(0xFFFFDFE0);
-        textColor = const Color(0xFFEA2B2B);
+        bgColor = isDark ? const Color(0xFF450A0A) : const Color(0xFFFFDFE0);
+        textColor = isDark ? const Color(0xFFFECACA) : const Color(0xFFEA2B2B);
       }
     } else if (isSelected) {
       borderColor = color;
-      bgColor = lightBg;
-      textColor = color;
+      bgColor = isDark ? color.withOpacity(0.25) : lightBg;
+      textColor = isDark ? Colors.white : color;
     }
 
     return InkWell(

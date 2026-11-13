@@ -1,8 +1,9 @@
 import '../models/lesson_models.dart';
+import 'dgs_sozel_units.dart';
 
 /// DGS Quest - Dikey Geçiş Sınavı Sayısal & Sözel Resmi ÖSYM Müfredatı
 /// ÖSYM Kuralı: 4 Yanlış 1 Doğruyu Götürür (Net = Doğru - Yanlış / 4)
-/// Toplam 28 Ünite ve 196 Kapsamlı Ders
+/// Toplam 38 Ünite ve 266 Kapsamlı Ders (100.000+ Soru)
 final List<LearningUnit> dgsUnits = [
   LearningUnit(
     id: 'dgs_mat_u1',
@@ -9070,7 +9071,7 @@ final List<LearningUnit> dgsUnits = [
     id: 'dgs_sozel_paragraf_u2',
     unitNumber: 24,
     title: 'Çoklu Paragraf Analizi',
-    subject: 'DGS Türkçe',
+    subject: 'DGS Paragraf',
     colorHex: 0xff3b82f6,
     lessons: [
       Lesson(
@@ -9464,7 +9465,7 @@ final List<LearningUnit> dgsUnits = [
     id: 'dgs_sozel_anlatim_u1',
     unitNumber: 25,
     title: 'Cümle Analizi & Anlatım İlkeleri',
-    subject: 'DGS Türkçe',
+    subject: 'DGS Sözel Anlam',
     colorHex: 0xff3b82f6,
     lessons: [
       Lesson(
@@ -10646,7 +10647,7 @@ final List<LearningUnit> dgsUnits = [
     id: 'dgs_sozel_mantik_u2',
     unitNumber: 28,
     title: 'Sözel Mantık Bölüm 2: Sıralama ve Gruplama Problemleri',
-    subject: 'DGS Sözel Bölüm',
+    subject: 'DGS Sözel Mantık',
     colorHex: 0xfff59e0b,
     lessons: [
       Lesson(
@@ -11036,4 +11037,5 @@ final List<LearningUnit> dgsUnits = [
       ),
     ],
   ),
+  ...buildExtraDgsSozelUnits(),
 ];

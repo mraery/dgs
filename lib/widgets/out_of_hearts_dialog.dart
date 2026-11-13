@@ -54,13 +54,13 @@ class OutOfHeartsDialog extends StatelessWidget {
                 const ParrotMascotWidget(size: 68, mood: ParrotMood.oops),
                 const SizedBox(height: 12),
                 const Text(
-                  'Hiç canın kalmadı! Konuya başlayabilmek ve soru çözebilmek için canlarını doldurmalı ya da Premium almalısın:',
+                  'Hiç canın kalmadı! Konuya başlayabilmek ve soru çözebilmek için canlarını doldurmalı ya da Super VIP almalısın:',
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 13, color: Color(0xFF475569), height: 1.35),
                 ),
                 const SizedBox(height: 16),
 
-                // 👑 SEÇENEK 1: PREMİUM AL (SINIRSIZ CAN)
+                // 👑 SEÇENEK 1: SUPER VIP AL (SINIRSIZ CAN)
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () async {
@@ -110,7 +110,7 @@ class OutOfHeartsDialog extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '👑 PREMİUM AL',
+                                      '👑 SUPER VIP AL',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.w900,
@@ -132,7 +132,7 @@ class OutOfHeartsDialog extends StatelessWidget {
                               ),
                               SizedBox(height: 2),
                               Text(
-                                'Aylık 58 ₺ veya Yıllık 480 ₺ planlar',
+                                'Aylık 59,99 ₺ veya Yıllık 499,99 ₺ planlar',
                                 style: TextStyle(
                                   color: Color(0xFFE0E7FF),
                                   fontSize: 11,
@@ -180,7 +180,7 @@ class OutOfHeartsDialog extends StatelessWidget {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(
-                            'Yetersiz elmas! 5 canı yenilemek için 50 Elmas gerekli. (Mevcut: ${profile.gems} 💎). Premium alabilirsin!',
+                            'Yetersiz elmas! 5 canı yenilemek için 50 Elmas gerekli. (Mevcut: ${profile.gems} 💎). Super VIP alabilirsin!',
                           ),
                           backgroundColor: const Color(0xFFDC2626),
                           behavior: SnackBarBehavior.floating,

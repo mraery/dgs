@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "164770239588",
+    "project_id": "quest-a182f",
+    "storage_bucket": "quest-a182f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:164770239588:android:32eb7d35974f495e8f7b71",
+        "android_client_info": {
+          "package_name": "com.tovrek.dgsquest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "164770239588-g4hltjn67rml9rm0tpv0gc34m22tpl82.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tovrek.dgsquest",
+            "certificate_hash": "cfc47bceb6832d83e4bffc56e68656baf6dbc1d3"
+          }
+        },
+        {
+          "client_id": "164770239588-d66ui7q1tv27g0kd10al644uqqg4fr5e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxdjxxxTJFMvU2Jhdix21Tw-YkL2dAJ_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "164770239588-d66ui7q1tv27g0kd10al644uqqg4fr5e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

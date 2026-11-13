@@ -34,16 +34,22 @@ class UnitsNotifier extends StateNotifier<List<LearningUnit>> {
         updated.add(unit);
       } else {
         try {
-          final cached = await CurriculumRemoteService.loadUnitContent(
-            repoName: franchise.name,
-            skeleton: unit,
+          final isCached = await CurriculumRemoteService.isUnitDownloaded(
+            franchise.name,
+            unit.id,
           );
-          if (cached.isLoaded) {
-            updated.add(cached);
-            hasChange = true;
-          } else {
-            updated.add(unit);
+          if (isCached) {
+            final cached = await CurriculumRemoteService.loadUnitContent(
+              repoName: franchise.name,
+              skeleton: unit,
+            );
+            if (cached.isLoaded) {
+              updated.add(cached);
+              hasChange = true;
+              continue;
+            }
           }
+          updated.add(unit);
         } catch (_) {
           updated.add(unit);
         }
@@ -52,6 +58,11 @@ class UnitsNotifier extends StateNotifier<List<LearningUnit>> {
     if (hasChange) {
       state = updated;
     }
+    // İnternet varsa açılmış ünitelerin güncel içeriğini arka planda kontrol et (günde en fazla bir kez).
+    CurriculumRemoteService.refreshCachedUnits(
+      repoName: franchise.name,
+      unitIds: [for (final u in updated) u.id],
+    );
   }
 
   void updateUnit(LearningUnit loadedUnit) {

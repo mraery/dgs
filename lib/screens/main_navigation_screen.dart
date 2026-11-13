@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../providers/exam_provider.dart';
 import '../services/play_store_billing_service.dart';
 import 'home_screen.dart';
 import 'practice_screen.dart';
@@ -34,16 +35,22 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final activeExam = ref.watch(examConfigProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Scaffold(
       body: IndexedStack(
         index: _currentIndex,
         children: _screens,
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF18181F) : Colors.white,
           border: Border(
-            top: BorderSide(color: Color(0xFFE5E5E5), width: 2),
+            top: BorderSide(
+              color: isDark ? const Color(0xFF262630) : const Color(0xFFE5E5E5),
+              width: 1.5,
+            ),
           ),
         ),
         child: SafeArea(
@@ -56,25 +63,29 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
                   index: 0,
                   icon: Icons.school_rounded,
                   label: 'Öğren',
-                  activeColor: const Color(0xFF58CC02),
+                  activeColor: activeExam.primaryColor,
+                  isDark: isDark,
                 ),
                 _buildNavItem(
                   index: 1,
                   icon: Icons.fitness_center_rounded,
                   label: 'Pratik',
-                  activeColor: const Color(0xFF1CB0F6),
+                  activeColor: activeExam.secondaryColor,
+                  isDark: isDark,
                 ),
                 _buildNavItem(
                   index: 2,
                   icon: Icons.shield_rounded,
                   label: 'Ligler',
                   activeColor: const Color(0xFFFFC800),
+                  isDark: isDark,
                 ),
                 _buildNavItem(
                   index: 3,
                   icon: Icons.person_rounded,
                   label: 'Profil',
-                  activeColor: const Color(0xFF1899D6),
+                  activeColor: activeExam.primaryColor,
+                  isDark: isDark,
                 ),
               ],
             ),
@@ -89,8 +100,10 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
     required IconData icon,
     required String label,
     required Color activeColor,
+    required bool isDark,
   }) {
     final isSelected = _currentIndex == index;
+    final inactiveColor = isDark ? const Color(0xFF71717A) : const Color(0xFFAFAFAF);
 
     return InkWell(
       onTap: () {
@@ -113,7 +126,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
           children: [
             Icon(
               icon,
-              color: isSelected ? activeColor : const Color(0xFFAFAFAF),
+              color: isSelected ? activeColor : inactiveColor,
               size: 26,
             ),
             const SizedBox(height: 4),
@@ -122,7 +135,7 @@ class _MainNavigationScreenState extends ConsumerState<MainNavigationScreen> {
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: isSelected ? FontWeight.w900 : FontWeight.w700,
-                color: isSelected ? activeColor : const Color(0xFFAFAFAF),
+                color: isSelected ? activeColor : inactiveColor,
               ),
             ),
           ],

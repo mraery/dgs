@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
 
-const MethodChannel _audioChannel = MethodChannel('com.ykslingo.ykslingo/audio');
+const MethodChannel _audioChannel = MethodChannel('com.dgsquest.app/audio');
 
 void _playOnNative(String method, SystemSoundType fallback) {
   _audioChannel.invokeMethod(method).catchError((_) {

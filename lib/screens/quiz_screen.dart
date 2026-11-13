@@ -101,7 +101,7 @@ class QuizScreen extends ConsumerWidget {
         }
       },
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: SafeArea(
           child: Column(
             children: [
@@ -330,13 +330,20 @@ class QuizScreen extends ConsumerWidget {
       );
     }
 
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     if (!state.isAnswerChecked) {
       // Henüz Kontrol Edilmedi
       return Container(
         padding: const EdgeInsets.all(16),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          border: Border(top: BorderSide(color: Color(0xFFE5E5E5), width: 2)),
+        decoration: BoxDecoration(
+          color: isDark ? const Color(0xFF18181F) : Colors.white,
+          border: Border(
+            top: BorderSide(
+              color: isDark ? const Color(0xFF262630) : const Color(0xFFE5E5E5),
+              width: 2,
+            ),
+          ),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -369,44 +376,12 @@ class QuizScreen extends ConsumerWidget {
               ),
               const SizedBox(height: 10),
             ],
-            Row(
-              children: [
-                // GEÇ / ATLA Butonu (Kullanıcı cevabı bilmiyorsa veya yapıştır-geç yapmak istiyorsa)
-                Expanded(
-                  flex: 2,
-                  child: SizedBox(
-                    height: 52,
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: const Color(0xFF64748B),
-                        side: const BorderSide(color: Color(0xFFCBD5E1), width: 2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        ),
-                      ),
-                      onPressed: notifier.skipQuestion,
-                      child: const Text(
-                        'GEÇ ⏭️',
-                        style: TextStyle(
-                          fontWeight: FontWeight.w900,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                // KONTROL ET Butonu
-                Expanded(
-                  flex: 4,
-                  child: DuoButton(
-                    text: 'KONTROL ET',
-                    color: DuoButtonColor.green,
-                    height: 52,
-                    onPressed: state.canCheckAnswer ? notifier.checkAnswer : null,
-                  ),
-                ),
-              ],
+            // KONTROL ET Butonu (Geç butonu kapatıldı)
+            DuoButton(
+              text: 'KONTROL ET',
+              color: DuoButtonColor.green,
+              height: 52,
+              onPressed: state.canCheckAnswer ? notifier.checkAnswer : null,
             ),
           ],
         ),

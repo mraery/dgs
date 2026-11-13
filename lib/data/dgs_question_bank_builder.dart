@@ -1,7 +1,8 @@
 import '../models/lesson_models.dart';
+import 'dgs_sozel_question_generator.dart';
 
-/// DGS Quest - 30.000+ Soru Üretici ve Müfredat Motoru
-/// Tüm 28 Ünite ve 196 Ders için eksiksiz bilgi havuzu.
+/// DGS Quest - 100.000+ Soru Üretici ve Müfredat Motoru
+/// Tüm 38 Ünite ve 266 Ders için eksiksiz bilgi havuzu.
 
 class _TopicFact {
   final String term;
@@ -1190,7 +1191,10 @@ final Map<String, List<_TopicFact>> _dgsLessonKnowledge = {
 };
 
 
-List<Question> generateQuestionsForLesson(String lessonId, {int count = 150}) {
+List<Question> generateQuestionsForLesson(String lessonId, {int count = 380}) {
+  if (DgsSozelQuestionGenerator.isSozelLesson(lessonId)) {
+    return DgsSozelQuestionGenerator.generate(lessonId, count: count);
+  }
   final facts = _dgsLessonKnowledge[lessonId];
   if (facts == null || facts.isEmpty) return const [];
 
@@ -1200,8 +1204,80 @@ List<Question> generateQuestionsForLesson(String lessonId, {int count = 150}) {
   for (int i = 0; i < count; i++) {
     final fact = facts[i % n];
     final qId = '${lessonId}_dyn_$i';
-    final style = i % 5;
+    final mod14 = i % 14;
 
+    // 1. Doğru / Yanlış Soruları
+    if (mod14 == 6) {
+      final isTrueCase = (i ~/ 14) % 2 == 0;
+      if (isTrueCase) {
+        questions.add(Question(
+          id: qId,
+          type: QuestionType.trueFalse,
+          prompt: '${fact.term} konusunda şu önerme yer alır: "${fact.desc}". Bu ifade doğru mudur?',
+          isTrue: true,
+          explanation: 'Doğru! ${fact.term} kuralına göre: ${fact.desc}',
+        ));
+      } else {
+        final dist = fact.distractors.isNotEmpty
+            ? fact.distractors[(i ~/ 14) % fact.distractors.length]
+            : 'Her koşulda tersi geçerlidir';
+        questions.add(Question(
+          id: qId,
+          type: QuestionType.trueFalse,
+          prompt: '${fact.term} ile ilgili: "$dist" kuralı geçerlidir. Bu ifade doğru mudur?',
+          isTrue: false,
+          explanation: 'Yanlış! Gerçek kural şudur: ${fact.desc}',
+        ));
+      }
+      continue;
+    }
+
+    // 2. Boşluk Doldurma Soruları
+    if (mod14 == 10) {
+      final blankOpts = <String>[fact.desc];
+      for (final d in fact.distractors) {
+        if (!blankOpts.contains(d) && d.trim().isNotEmpty) {
+          blankOpts.add(d);
+          if (blankOpts.length == 4) break;
+        }
+      }
+      while (blankOpts.length < 4) {
+        final fb = 'Alternatif Kural ${blankOpts.length + 1}';
+        if (!blankOpts.contains(fb)) blankOpts.add(fb);
+      }
+      blankOpts.shuffle();
+
+      questions.add(Question(
+        id: qId,
+        type: QuestionType.fillInTheBlank,
+        prompt: '${fact.term} için geçerli olan temel ilke: _____',
+        blankOptions: blankOpts,
+        correctBlankAnswer: fact.desc,
+        explanation: 'Doğru cevap: ${fact.desc} (${fact.term})',
+      ));
+      continue;
+    }
+
+    // 3. Eşleştirme Soruları (Her 14 soruda 1 tane)
+    if (mod14 == 13 && n >= 2) {
+      final pairCount = n >= 3 ? 3 : n;
+      final pairs = <MatchingPair>[];
+      for (int p = 0; p < pairCount; p++) {
+        final f = facts[(i + p) % n];
+        pairs.add(MatchingPair(left: f.term, right: f.desc));
+      }
+      questions.add(Question(
+        id: qId,
+        type: QuestionType.matching,
+        prompt: 'Aşağıdaki ${fact.term.split(" ").first} kavramlarını ilgili kurallarla eşleştirin:',
+        matchingPairs: pairs,
+        explanation: 'Tüm kavram ve kurallar doğru şekilde eşleştirildi.',
+      ));
+      continue;
+    }
+
+    // 4. Çoktan Seçmeli Sorular (10 farklı sınav tarzı soru kalıbı)
+    final style = i % 10;
     late String prompt;
     late String correctOption;
     late List<String> rawDistractors;
@@ -1233,14 +1309,45 @@ List<Question> generateQuestionsForLesson(String lessonId, {int count = 150}) {
         explanation = 'Açıklanan kural veya kavram ${fact.term}\'dir.';
         break;
       case 4:
-      default:
         prompt = '${fact.term} ile ilgili doğru değerlendirme hangisidir?';
         correctOption = fact.desc;
         rawDistractors = fact.distractors;
         explanation = '${fact.term}: ${fact.desc}';
         break;
+      case 5:
+        prompt = 'ÖSYM DGS Sayısal/Sözel bölümünde "${fact.term}" sorulduğunda adayın ilk uygulaması gereken adım nedir?';
+        correctOption = fact.desc;
+        rawDistractors = fact.distractors;
+        explanation = 'DGS sınav taktiği olarak: ${fact.desc}';
+        break;
+      case 6:
+        prompt = 'Aşağıdakilerden hangisi "${fact.term}" kavramının temel mantığını en doğru şekilde özetler?';
+        correctOption = fact.desc;
+        rawDistractors = fact.distractors;
+        explanation = 'Doğru özet: ${fact.desc}';
+        break;
+      case 7:
+        prompt = '"${fact.desc}" yargısı hangi DGS kazanımı ile doğrudan ilişkilidir?';
+        correctOption = fact.term;
+        rawDistractors = fact.distractors;
+        explanation = 'Bu kazanım doğrudan ${fact.term} konusuna aittir.';
+        break;
+      case 8:
+        prompt = 'DGS sınavında net kazanmak için "${fact.term}" konusunda hangisi bilinmelidir?';
+        correctOption = fact.desc;
+        rawDistractors = fact.distractors;
+        explanation = 'Net kazandıran kural: ${fact.desc}';
+        break;
+      case 9:
+      default:
+        prompt = 'Aşağıdaki ifadelerden hangisi "${fact.term}" konusu için geçerli ve tutarlı bir bilgidir?';
+        correctOption = fact.desc;
+        rawDistractors = fact.distractors;
+        explanation = 'Geçerli ve tutarlı bilgi: ${fact.desc}';
+        break;
     }
 
+    final isTermAnswer = (style == 0 || style == 3 || style == 7);
     final distinctDistractors = <String>[];
     for (final d in rawDistractors) {
       if (d != correctOption && !distinctDistractors.contains(d) && d.trim().isNotEmpty) {
@@ -1252,7 +1359,7 @@ List<Question> generateQuestionsForLesson(String lessonId, {int count = 150}) {
     int fillIdx = 1;
     while (distinctDistractors.length < 4 && fillIdx < n * 3) {
       final fallbackFact = facts[(i + fillIdx) % n];
-      final candidate = (style == 1 || style == 2 || style == 4) ? fallbackFact.desc : fallbackFact.term;
+      final candidate = isTermAnswer ? fallbackFact.term : fallbackFact.desc;
       if (candidate != correctOption && !distinctDistractors.contains(candidate) && candidate.trim().isNotEmpty) {
         distinctDistractors.add(candidate);
       }
@@ -1267,9 +1374,9 @@ List<Question> generateQuestionsForLesson(String lessonId, {int count = 150}) {
     ];
     int fbIdx = 0;
     while (distinctDistractors.length < 4) {
-      final item = (style == 1 || style == 2 || style == 4)
-          ? fallbackDescriptions[fbIdx % fallbackDescriptions.length]
-          : 'Seçenek-${String.fromCharCode(65 + fbIdx)}';
+      final item = isTermAnswer
+          ? 'Kavram-${String.fromCharCode(65 + fbIdx)}'
+          : fallbackDescriptions[fbIdx % fallbackDescriptions.length];
       if (!distinctDistractors.contains(item) && item != correctOption) {
         distinctDistractors.add(item);
       }
@@ -1293,11 +1400,11 @@ List<Question> generateQuestionsForLesson(String lessonId, {int count = 150}) {
   return questions;
 }
 
-/// Tüm 28 ünite ve 196 dersi 30.000+ soru içerecek şekilde genişletir.
+/// Tüm 28 ünite ve 196 dersi 50.000+ soru içerecek şekilde genişletir.
 List<LearningUnit> expandUnitsWithQuestionBank(List<LearningUnit> baseUnits) {
   return baseUnits.map((unit) {
     final updatedLessons = unit.lessons.map((lesson) {
-      final generated = generateQuestionsForLesson(lesson.id, count: 150);
+      final generated = generateQuestionsForLesson(lesson.id, count: 380);
       final combined = [...lesson.questions, ...generated];
       return Lesson(
         id: lesson.id,

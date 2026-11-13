@@ -50,14 +50,17 @@ class _PromoCodeDialogState extends ConsumerState<PromoCodeDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
       elevation: 12,
+      backgroundColor: isDark ? const Color(0xFF1E1E26) : Colors.white,
       child: Container(
         padding: const EdgeInsets.all(22),
         constraints: const BoxConstraints(maxWidth: 420),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: isDark ? const Color(0xFF1E1E26) : Colors.white,
           borderRadius: BorderRadius.circular(24),
         ),
         child: SingleChildScrollView(
@@ -81,7 +84,7 @@ class _PromoCodeDialogState extends ConsumerState<PromoCodeDialog> {
                     ),
                   ),
                   const SizedBox(width: 12),
-                  const Expanded(
+                  Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -90,19 +93,22 @@ class _PromoCodeDialogState extends ConsumerState<PromoCodeDialog> {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w900,
-                            color: Color(0xFF4B4B4B),
+                            color: isDark ? const Color(0xFFF4F4F5) : const Color(0xFF4B4B4B),
                           ),
                         ),
-                        SizedBox(height: 2),
+                        const SizedBox(height: 2),
                         Text(
                           'İndirim veya hediye kodunu gir',
-                          style: TextStyle(fontSize: 12.5, color: Color(0xFF777777)),
+                          style: TextStyle(
+                            fontSize: 12.5,
+                            color: isDark ? const Color(0xFF94A3B8) : const Color(0xFF777777),
+                          ),
                         ),
                       ],
                     ),
                   ),
                   IconButton(
-                    icon: const Icon(Icons.close_rounded, color: Colors.grey),
+                    icon: Icon(Icons.close_rounded, color: isDark ? Colors.white60 : Colors.grey),
                     onPressed: () => Navigator.of(context).pop(),
                   ),
                 ],
@@ -110,26 +116,30 @@ class _PromoCodeDialogState extends ConsumerState<PromoCodeDialog> {
 
               const SizedBox(height: 18),
 
-              // Kod Giriş Alanı
+              // Kod Giriş Alanı (Sadece yazı ile yazma kısmı)
               Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xFFF7F7F7),
+                  color: isDark ? const Color(0xFF262633) : const Color(0xFFF7F7F7),
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFE5E5E5), width: 1.5),
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF383848) : const Color(0xFFE5E5E5),
+                    width: 1.5,
+                  ),
                 ),
                 child: TextField(
                   controller: _controller,
                   textCapitalization: TextCapitalization.none,
                   autocorrect: false,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1.1,
+                    color: isDark ? const Color(0xFFF4F4F5) : const Color(0xFF1E293B),
                   ),
                   decoration: InputDecoration(
-                    hintText: 'Örn: YKS2026 veya %50',
+                    hintText: 'Promosyon kodunu girin...',
                     hintStyle: TextStyle(
-                      color: Colors.grey.shade400,
+                      color: isDark ? const Color(0xFF71717A) : Colors.grey.shade400,
                       fontWeight: FontWeight.normal,
                       letterSpacing: 0,
                     ),
@@ -148,31 +158,6 @@ class _PromoCodeDialogState extends ConsumerState<PromoCodeDialog> {
                   ),
                   onSubmitted: (_) => _applyCode(),
                 ),
-              ),
-
-              const SizedBox(height: 12),
-
-              // Aktif İndirim Kodu
-              const Text(
-                'Aktif İndirim Kampanyası:',
-                style: TextStyle(
-                  fontSize: 11.5,
-                  fontWeight: FontWeight.w800,
-                  color: Color(0xFF888888),
-                  letterSpacing: 0.5,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Wrap(
-                spacing: 8,
-                runSpacing: 6,
-                children: [
-                  _buildCodeChip(
-                    code: 'YKS2026',
-                    label: '🎁 YKS2026 (%50 İndirim & +150 💎)',
-                    badgeColor: const Color(0xFF1CB0F6),
-                  ),
-                ],
               ),
 
               // Sonuç Bildirimi
@@ -263,33 +248,6 @@ class _PromoCodeDialogState extends ConsumerState<PromoCodeDialog> {
                       ),
               ),
             ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildCodeChip({
-    required String code,
-    required String label,
-    required Color badgeColor,
-  }) {
-    return InkWell(
-      onTap: () => _applyCode(code),
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: badgeColor.withOpacity(0.12),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: badgeColor.withOpacity(0.4), width: 1.2),
-        ),
-        child: Text(
-          label,
-          style: TextStyle(
-            fontSize: 11.5,
-            fontWeight: FontWeight.w800,
-            color: badgeColor,
           ),
         ),
       ),

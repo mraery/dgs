@@ -136,10 +136,13 @@ class _SplashMascotScreenState extends State<SplashMascotScreen>
                         ),
                       ],
                     ),
-                    child: Image.asset(
-                      'assets/images/mascot.png',
-                      errorBuilder: (context, error, stackTrace) => const Center(
-                        child: Text('🦜', style: TextStyle(fontSize: 100)),
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/images/mascot.png',
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) => const Center(
+                          child: Text('🦜', style: TextStyle(fontSize: 100)),
+                        ),
                       ),
                     ),
                   ),

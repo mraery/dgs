@@ -191,8 +191,9 @@ class ExamConfig {
         return ExamFranchise.kpss;
       case 'yks':
       case 'yksquest':
-      default:
         return ExamFranchise.yks;
+      default:
+        return ExamFranchise.dgs;
     }
   }
 }

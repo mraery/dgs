@@ -12,7 +12,7 @@ import kotlin.math.exp
 import kotlin.math.sin
 
 class MainActivity : FlutterActivity() {
-    private val CHANNEL = "com.ykslingo.ykslingo/audio"
+    private val CHANNEL = "com.dgsquest.app/audio"
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)

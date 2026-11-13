@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import '../models/lesson_models.dart';
+import '../services/smart_learning_engine.dart';
 import '../services/sound_service.dart';
 import 'game_provider.dart';
 
@@ -297,6 +298,14 @@ class QuizNotifier extends StateNotifier<QuizState> {
       HapticFeedback.lightImpact();
       SoundService.playCorrect();
     }
+
+    // Ebbinghaus Akıllı Öğrenme Motoruna kaydet
+    SmartLearningEngine.instance.recordQuestionAnswer(
+      question: q,
+      subject: state.lesson.title,
+      topic: state.lesson.description,
+      isCorrect: isCorrect,
+    );
 
     state = state.copyWith(
       isAnswerChecked: true,

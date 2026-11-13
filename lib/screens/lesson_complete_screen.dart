@@ -111,7 +111,51 @@ class _LessonCompleteScreenState extends ConsumerState<LessonCompleteScreen> {
                 ),
               ).animate().fadeIn(delay: 300.ms),
 
-              const SizedBox(height: 24),
+              const SizedBox(height: 20),
+
+              // Seviye (Level) İlerleme Çubuğu
+              Consumer(
+                builder: (context, ref, _) {
+                  final profile = ref.watch(userProfileProvider);
+                  return Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFFFFBEB),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: const Color(0xFFFDE68A)),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '⭐ Seviye ${profile.level} • ${profile.levelTitle}',
+                              style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 13, color: Color(0xFFB45309)),
+                            ),
+                            Text(
+                              '${profile.xpIntoCurrentLevel}/${profile.xpRequiredForNextLevel} XP',
+                              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 12, color: Color(0xFFD97706)),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(8),
+                          child: LinearProgressIndicator(
+                            value: profile.levelProgress,
+                            minHeight: 8,
+                            backgroundColor: const Color(0xFFFEF3C7),
+                            valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFFF59E0B)),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+
+              const SizedBox(height: 16),
 
               // MEB / ÖSYM Resmi Net Hesaplama Kartı
               Container(

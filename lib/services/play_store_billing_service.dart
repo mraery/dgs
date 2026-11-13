@@ -21,8 +21,6 @@ class PlayStoreBillingService {
     gemsPackId,
     'dgs_premium_monthly',
     'dgs_premium_yearly',
-    'ykspatika_premium_monthly',
-    'ykspatika_premium_yearly',
   };
 
   final InAppPurchase _iap = InAppPurchase.instance;
@@ -126,9 +124,7 @@ class PlayStoreBillingService {
     if (id == monthlySubscriptionId ||
         id == yearlySubscriptionId ||
         id == 'dgs_premium_monthly' ||
-        id == 'dgs_premium_yearly' ||
-        id == 'ykspatika_premium_monthly' ||
-        id == 'ykspatika_premium_yearly') {
+        id == 'dgs_premium_yearly') {
       _ref!.read(userProfileProvider.notifier).activatePremium();
       debugPrint('[StoreService-DGS] Premium VIP aktif edildi!');
     } else if (id == gemsPackId) {

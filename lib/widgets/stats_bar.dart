@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/game_provider.dart';
 import '../providers/exam_provider.dart';
+import '../providers/theme_provider.dart';
 import 'out_of_hearts_dialog.dart';
 import 'premium_purchase_sheet.dart';
 import 'promo_code_dialog.dart';
@@ -16,20 +17,24 @@ class StatsBar extends ConsumerWidget implements PreferredSizeWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final profile = ref.watch(userProfileProvider);
     final activeExam = ref.watch(examConfigProvider);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: isDark ? const Color(0xFF18181F) : Colors.white,
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFF0F172A).withOpacity(0.04),
+            color: Colors.black.withOpacity(isDark ? 0.3 : 0.04),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
         ],
-        border: const Border(
-          bottom: BorderSide(color: Color(0xFFF1F5F9), width: 1.5),
+        border: Border(
+          bottom: BorderSide(
+            color: isDark ? const Color(0xFF262630) : const Color(0xFFF1F5F9),
+            width: 1.5,
+          ),
         ),
       ),
       child: SafeArea(
@@ -37,7 +42,7 @@ class StatsBar extends ConsumerWidget implements PreferredSizeWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            // Sınav Rozeti (Sabit ve Şık)
+            // Sınav ve Seviye Rozeti
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
@@ -50,13 +55,13 @@ class StatsBar extends ConsumerWidget implements PreferredSizeWidget {
                 children: [
                   Text(
                     activeExam.badgeText.split(' ').last,
-                    style: const TextStyle(fontSize: 14),
+                    style: const TextStyle(fontSize: 13),
                   ),
-                  const SizedBox(width: 5),
+                  const SizedBox(width: 4),
                   Text(
-                    activeExam.title,
+                    'Lv.${profile.level}',
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 12.5,
                       fontWeight: FontWeight.w900,
                       color: activeExam.primaryColor,
                     ),
@@ -139,6 +144,29 @@ class StatsBar extends ConsumerWidget implements PreferredSizeWidget {
                       ),
                     ),
                   ],
+                ),
+              ),
+            ),
+            // Hızlı Tema Değiştirici Buton (🌙 / ☀️)
+            InkWell(
+              onTap: () {
+                ref.read(themeModeProvider.notifier).toggleTheme();
+              },
+              borderRadius: BorderRadius.circular(20),
+              child: Container(
+                padding: const EdgeInsets.all(6),
+                decoration: BoxDecoration(
+                  color: isDark ? const Color(0xFF262633) : const Color(0xFFF1F5F9),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: isDark ? const Color(0xFF383848) : const Color(0xFFE2E8F0),
+                    width: 1.2,
+                  ),
+                ),
+                child: Icon(
+                  isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+                  size: 17,
+                  color: isDark ? const Color(0xFFFFD54F) : const Color(0xFF6366F1),
                 ),
               ),
             ),
@@ -374,12 +402,16 @@ class _ModernStatChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveBg = isDark ? iconColor.withOpacity(0.18) : bgColor;
+    final effectiveBorder = isDark ? iconColor.withOpacity(0.35) : borderColor;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: bgColor,
+        color: effectiveBg,
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: borderColor, width: 1.2),
+        border: Border.all(color: effectiveBorder, width: 1.2),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

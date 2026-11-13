@@ -17,13 +17,13 @@ void main() {
       expect(config.calculateNet(1, 4), equals(0.0));
     });
 
-    test('DGS Quest 28 ünite, 196 ders ve 30.000+ sorudan oluşur', () {
-      expect(mockUnits.length, equals(28));
+    test('DGS Quest 38 ünite, 266 ders ve 100.000+ sorudan oluşur', () {
+      expect(mockUnits.length, equals(38));
       final totalLessons = mockUnits.expand((u) => u.lessons).length;
       final totalQuestions = mockUnits.expand((u) => u.lessons).expand((l) => l.questions).length;
 
-      expect(totalLessons, equals(196));
-      expect(totalQuestions, greaterThanOrEqualTo(30000));
+      expect(totalLessons, equals(266));
+      expect(totalQuestions, greaterThanOrEqualTo(100000));
     });
 
     test('Her ünitede en az 7 ders bulunur, ilk soru kavram kartıdır ve son ders kupa sınavıdır', () {

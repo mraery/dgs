@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/lesson_models.dart';
+import '../services/friends_quest_service.dart';
 
 final userProfileProvider =
     StateNotifierProvider<UserProfileNotifier, UserProfile>((ref) {
@@ -102,6 +103,81 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
     await prefs.setBool(_keyCheatUnlocked, current.isCheatUnlocked);
     await prefs.setBool(_keyPremium, current.isPremium);
     await prefs.setInt(_keyQuestionsAnswered, current.questionsAnsweredCount);
+    FriendsQuestService.instance.scheduleProgressBackup(_snapshotOf(current));
+  }
+
+  /// Buluta yedeklenecek ilerleme (Premium/hile bilgisi yedeklenmez; satın alma geri yüklemeyle gelir).
+  Map<String, dynamic> toCloudSnapshot() => _snapshotOf(state);
+
+  Map<String, dynamic> _snapshotOf(UserProfile c) {
+    return {
+      'xp': c.xp,
+      'gems': c.gems,
+      'hearts': c.hearts,
+      'streak': c.streak,
+      'lastActiveDate': c.lastActiveDate,
+      'completedLessonIds': c.completedLessonIds.toList(),
+      'lessonScores': c.lessonScores,
+      'questionsAnsweredCount': c.questionsAnsweredCount,
+      'claimedAchievementIds': c.claimedAchievementIds.toList(),
+      'savedAt': DateTime.now().toIso8601String(),
+    };
+  }
+
+  /// Google girişinden hemen sonra çağrılır: buluttaki yedeği çekip bu cihazdakiyle birleştirir.
+  Future<void> pullCloudProgress() async {
+    final remote = await FriendsQuestService.instance.fetchRemoteProgress();
+    if (!mounted) return;
+    mergeCloudProgress(remote);
+  }
+
+  /// Google girişinden sonra buluttaki ilerlemeyle bu cihazdakini birleştirir.
+  /// Tamamlanan dersler birleşir, en yüksek puanlar ve en yüksek XP/seri korunur.
+  void mergeCloudProgress(Map<String, dynamic>? remote) {
+    if (remote == null) {
+      // Bulutta yedek yoksa bu cihazdaki ilerlemeyi hemen yedekle.
+      FriendsQuestService.instance.scheduleProgressBackup(toCloudSnapshot());
+      return;
+    }
+    final c = state;
+    int asInt(dynamic v, int fallback) => (v as num?)?.toInt() ?? fallback;
+
+    final remoteXp = asInt(remote['xp'], 0);
+    final remoteIsAhead = remoteXp > c.xp;
+
+    final completed = <String>{
+      ...c.completedLessonIds,
+      ...((remote['completedLessonIds'] as List<dynamic>?)?.map((e) => e.toString()) ?? const <String>[]),
+    };
+    final scores = Map<String, double>.from(c.lessonScores);
+    final remoteScores = remote['lessonScores'];
+    if (remoteScores is Map) {
+      remoteScores.forEach((k, v) {
+        final rv = (v as num?)?.toDouble();
+        if (rv == null) return;
+        final key = k.toString();
+        if (rv > (scores[key] ?? -1)) scores[key] = rv;
+      });
+    }
+    final achievements = <String>{
+      ...c.claimedAchievementIds,
+      ...((remote['claimedAchievementIds'] as List<dynamic>?)?.map((e) => e.toString()) ?? const <String>[]),
+    };
+    final remoteLastDate = remote['lastActiveDate']?.toString() ?? '';
+
+    state = c.copyWith(
+      xp: remoteIsAhead ? remoteXp : c.xp,
+      gems: remoteIsAhead ? asInt(remote['gems'], c.gems) : c.gems,
+      streak: asInt(remote['streak'], 0) > c.streak ? asInt(remote['streak'], 0) : c.streak,
+      lastActiveDate: remoteLastDate.compareTo(c.lastActiveDate) > 0 ? remoteLastDate : c.lastActiveDate,
+      completedLessonIds: completed,
+      lessonScores: scores,
+      questionsAnsweredCount: asInt(remote['questionsAnsweredCount'], 0) > c.questionsAnsweredCount
+          ? asInt(remote['questionsAnsweredCount'], 0)
+          : c.questionsAnsweredCount,
+      claimedAchievementIds: achievements,
+    );
+    _saveToPrefs();
   }
 
   bool incrementQuestionsAnswered() {
@@ -141,6 +217,27 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
     if (amount > 0) {
       state = state.copyWith(gems: state.gems + amount);
       _saveToPrefs();
+    }
+  }
+
+  void addXp(int amount) {
+    if (amount > 0) {
+      final oldLevel = state.level;
+      final newXp = state.xp + amount;
+      final newLevel = UserProfile.calculateLevel(newXp);
+      final levelUpBonusGems = newLevel > oldLevel ? (newLevel - oldLevel) * 15 : 0;
+
+      state = state.copyWith(
+        xp: newXp,
+        gems: state.gems + levelUpBonusGems,
+      );
+      _saveToPrefs();
+      FriendsQuestService.instance.syncXpGain(
+        addedXp: amount,
+        totalXp: newXp,
+        level: newLevel,
+        streak: state.streak,
+      );
     }
   }
 
@@ -200,6 +297,7 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
     }
 
     Set<String> newCompleted = Set<String>.from(state.completedLessonIds);
+    final oldLevel = state.level;
     int newXp = state.xp;
     int newGems = state.gems;
 
@@ -214,6 +312,12 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
       }
     }
 
+    final newLevel = UserProfile.calculateLevel(newXp);
+    if (newLevel > oldLevel) {
+      newGems += (newLevel - oldLevel) * 15; // Seviye atlama bonusu
+    }
+
+    final oldXp = state.xp;
     state = state.copyWith(
       xp: newXp,
       gems: newGems,
@@ -223,6 +327,15 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
       lessonScores: newScores,
     );
     _saveToPrefs();
+    final earnedXpDelta = newXp - oldXp;
+    if (earnedXpDelta > 0) {
+      FriendsQuestService.instance.syncXpGain(
+        addedXp: earnedXpDelta,
+        totalXp: newXp,
+        level: newLevel,
+        streak: newStreak,
+      );
+    }
   }
 
   void completeLesson(Lesson lesson) {
@@ -231,8 +344,15 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
 
   void resetAllProgress() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    // prefs.clear() arkadaş kodunu ve tema/bildirim ayarlarını da siliyordu; sadece oyun verisini sıfırla.
+    for (final key in [
+      _keyHearts, _keyStreak, _keyXp, _keyGems, _keyCompletedLessons, _keyLessonScores,
+      _keyLastDate, _keyCheatUnlocked, _keyPremium, _keyQuestionsAnswered, _keyClaimedAchievements,
+    ]) {
+      await prefs.remove(key);
+    }
     state = const UserProfile();
+    FriendsQuestService.instance.scheduleProgressBackup(toCloudSnapshot());
   }
 
   PromoResult applyPromoCode(String rawCode) {
@@ -300,7 +420,7 @@ class UserProfileNotifier extends StateNotifier<UserProfile> {
     }
 
     // 🎁 STANDART İNDİRİM & PROMOSYON KODLARI (%50 İndirim)
-    if (code == 'yks2026' || code == '%50' || code == '50' || code == 'indirim' || code == 'indirim50' || code == '%50indirim' || code == 'yks50') {
+    if (code == 'dgs2026' || code == 'dgs' || code == 'dgs50' || code == 'yks2026' || code == '%50' || code == '50' || code == 'indirim' || code == 'indirim50' || code == '%50indirim') {
       state = state.copyWith(
         hearts: state.maxHearts,
         gems: state.gems + 150,
@@ -415,7 +535,7 @@ final achievementsProvider = Provider<List<Achievement>>((ref) {
     Achievement(
       id: 'streak_30',
       title: 'Durdurulamaz Maraton',
-      desc: 'Tam 30 gün boyunca her gün YKSify ile çalış',
+      desc: 'Tam 30 gün boyunca her gün DGS Quest ile çalış',
       iconEmoji: '🌋',
       category: AchievementCategory.streak,
       currentProgress: user.streak.clamp(0, 30),
@@ -431,7 +551,7 @@ final achievementsProvider = Provider<List<Achievement>>((ref) {
     Achievement(
       id: 'lessons_1',
       title: 'İlk Adım',
-      desc: 'İlk YKS dersini başarıyla tamamla',
+      desc: 'İlk DGS dersini başarıyla tamamla',
       iconEmoji: '🎯',
       category: AchievementCategory.lessons,
       currentProgress: completedCount > 0 ? 1 : 0,
@@ -472,7 +592,7 @@ final achievementsProvider = Provider<List<Achievement>>((ref) {
     ),
     Achievement(
       id: 'lessons_35',
-      title: 'YKS Bilgesi',
+      title: 'DGS Bilgesi',
       desc: '35 farklı dersi tamamlayarak dev bir bilgi birikimi yap',
       iconEmoji: '🎓',
       category: AchievementCategory.lessons,

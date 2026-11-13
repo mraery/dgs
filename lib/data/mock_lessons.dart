@@ -5,9 +5,11 @@ import 'dgs_question_bank_builder.dart';
 
 export 'dgs_streaming_units.dart';
 
-/// DGS Quest Resmi ÖSYM DGS Müfredatı (30.000+ Soru)
+/// DGS Quest Resmi ÖSYM DGS Müfredatı (50.000+ Soru)
 final List<LearningUnit> mockUnits = expandUnitsWithQuestionBank(dgsUnits);
 
+/// Uygulama açılışında sadece ünite iskeletlerini yükler;
+/// ders soruları internetten (CurriculumRemoteService) talep üzerine çekilir.
 List<LearningUnit> getUnitsForExam(ExamFranchise franchise) {
-  return mockUnits;
+  return dgsUnits.map((u) => u.toSkeleton()).toList();
 }

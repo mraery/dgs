@@ -1,11 +1,11 @@
 {
-    "name": "YKS Quest - Sınav Macerası",
-    "short_name": "YKS Quest",
+    "name": "DGS Quest - Sınav Macerası",
+    "short_name": "DGS Quest",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#58CC02",
-    "theme_color": "#58CC02",
-    "description": "YKS Quest - Oyunla TYT, AYT, DGS, LGS ve KPSS Hazırlık Platformu",
+    "background_color": "#8B5CF6",
+    "theme_color": "#8B5CF6",
+    "description": "DGS Quest - Oyunla DGS Hazırlık ve Derece Platformu",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

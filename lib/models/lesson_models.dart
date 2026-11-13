@@ -334,6 +334,51 @@ class UserProfile {
     this.claimedAchievementIds = const {},
   });
 
+  /// XP'ye göre RPG Seviye (Level) hesaplama
+  static int calculateLevel(int totalXp) {
+    int lvl = 1;
+    int remaining = totalXp;
+    while (true) {
+      final req = 100 + (lvl - 1) * 50;
+      if (remaining < req) break;
+      remaining -= req;
+      lvl++;
+    }
+    return lvl;
+  }
+
+  int get level => calculateLevel(xp);
+
+  int get xpIntoCurrentLevel {
+    int lvl = 1;
+    int remaining = xp;
+    while (true) {
+      final req = 100 + (lvl - 1) * 50;
+      if (remaining < req) break;
+      remaining -= req;
+      lvl++;
+    }
+    return remaining;
+  }
+
+  int get xpRequiredForNextLevel => 100 + (level - 1) * 50;
+
+  double get levelProgress {
+    final req = xpRequiredForNextLevel;
+    return req > 0 ? (xpIntoCurrentLevel / req).clamp(0.0, 1.0) : 0.0;
+  }
+
+  String get levelTitle {
+    final lvl = level;
+    if (lvl <= 1) return 'Çaylak Aday 🐣';
+    if (lvl <= 3) return 'DGS Kaşifi 🧭';
+    if (lvl <= 5) return 'Soru Avcısı 🏹';
+    if (lvl <= 8) return 'Bilge Öğrenci 📚';
+    if (lvl <= 12) return 'Mantık Ustası ⚡';
+    if (lvl <= 19) return 'DGS Üstadı 👑';
+    return 'Efsane Şampiyon 🏆';
+  }
+
   UserProfile copyWith({
     int? hearts,
     int? maxHearts,

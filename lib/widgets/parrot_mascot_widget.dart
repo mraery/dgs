@@ -7,7 +7,7 @@ enum ParrotMood {
   oops,
 }
 
-/// YKSLingo'nun sevimli, renkli ve bilge Papağan maskotu: Zeki Paşa 🦜
+/// DGS Quest'in sevimli, renkli ve bilge Papağan maskotu: Zeki Paşa 🦜
 class ParrotMascotWidget extends StatelessWidget {
   final double size;
   final ParrotMood mood;
@@ -26,16 +26,23 @@ class ParrotMascotWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     Widget mascot = Container(
       width: size,
       height: size,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
+        color: isDark ? const Color(0xFF23232C) : Colors.white,
+        border: Border.all(
+          color: const Color(0xFF10B981).withValues(alpha: 0.40),
+          width: size >= 100 ? 3.5 : 2.5,
+        ),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFEA580C).withOpacity(0.20),
-            blurRadius: 12,
-            offset: const Offset(0, 4),
+            color: const Color(0xFF10B981).withValues(alpha: isDark ? 0.25 : 0.16),
+            blurRadius: 10,
+            offset: const Offset(0, 3),
           ),
         ],
       ),

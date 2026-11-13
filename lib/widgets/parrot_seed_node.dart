@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/lesson_models.dart';
 
-/// YKSLingo Premium 3D Öğrenme Basamağı (Duolingo Stili 3D Stepping Stone)
+/// DGS Quest Premium 3D Öğrenme Basamağı (Duolingo Stili 3D Stepping Stone)
 /// Kaliteli, fiziksel derinlikli, basmalı 3D buton ve kupa sınavı kaidesi.
 class ParrotSeedNode extends StatefulWidget {
   final Lesson lesson;
@@ -80,8 +80,8 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
   @override
   Widget build(BuildContext context) {
     final isExam = widget.lesson.isUnitExam;
-    final double nodeDiameter = isExam ? 90.0 : 74.0;
-    final double bevelDepth = isExam ? 10.0 : 8.0;
+    final double nodeDiameter = isExam ? 116.0 : 96.0;
+    final double bevelDepth = isExam ? 14.0 : 11.0;
 
     // Renk ve Durum Belirleme
     Color surfaceTopColor;
@@ -171,8 +171,8 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
             },
             onTapCancel: () => setState(() => _isPressed = false),
             child: SizedBox(
-              width: nodeDiameter + 32,
-              height: nodeDiameter + bevelDepth + 36,
+              width: nodeDiameter + 48,
+              height: nodeDiameter + bevelDepth + 48,
               child: Stack(
                 alignment: Alignment.bottomCenter,
                 clipBehavior: Clip.none,
@@ -185,15 +185,15 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
                         animation: _pulseAnimation,
                         builder: (context, child) {
                           return Container(
-                            width: (nodeDiameter + 18) * _pulseAnimation.value,
-                            height: (nodeDiameter + 18) * _pulseAnimation.value,
+                            width: (nodeDiameter + 24) * _pulseAnimation.value,
+                            height: (nodeDiameter + 24) * _pulseAnimation.value,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
                               border: Border.all(
                                 color: widget.baseColor.withOpacity(
                                   (1.2 - _pulseAnimation.value).clamp(0.1, 0.6),
                                 ),
-                                width: 3.5,
+                                width: 4.5,
                               ),
                             ),
                           );
@@ -344,7 +344,7 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
                   // 5. Duolingo Stili Yüzen "BAŞLA" Konuşma Balonu
                   if (isActiveNext)
                     Positioned(
-                      top: 0,
+                      top: -4,
                       child: AnimatedBuilder(
                         animation: _floatAnimation,
                         builder: (context, child) {
@@ -354,23 +354,23 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
                               mainAxisSize: MainAxisSize.min,
                               children: [
                                 Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 5),
+                                  padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 7),
                                   decoration: BoxDecoration(
                                     color: widget.baseColor,
-                                    borderRadius: BorderRadius.circular(16),
+                                    borderRadius: BorderRadius.circular(18),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: widget.baseColor.withOpacity(0.4),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 3),
+                                        color: widget.baseColor.withOpacity(0.45),
+                                        blurRadius: 10,
+                                        offset: const Offset(0, 4),
                                       ),
                                     ],
                                   ),
                                   child: const Text(
-                                    'BAŞLA',
+                                    'BAŞLA ✨',
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 11.5,
+                                      fontSize: 13,
                                       fontWeight: FontWeight.w900,
                                       letterSpacing: 0.8,
                                     ),
@@ -378,7 +378,7 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
                                 ),
                                 // Balon Ok Ucu (Triangle pointer)
                                 CustomPaint(
-                                  size: const Size(10, 6),
+                                  size: const Size(12, 7),
                                   painter: _TrianglePainter(color: widget.baseColor),
                                 ),
                               ],
@@ -390,20 +390,20 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
                   // Tamamlanmış veya Kupa Rozeti
                   else if (badgeText != null)
                     Positioned(
-                      top: 4,
+                      top: 0,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4.5),
                         decoration: BoxDecoration(
                           color: badgeBgColor ?? Colors.white,
-                          borderRadius: BorderRadius.circular(14),
+                          borderRadius: BorderRadius.circular(16),
                           border: Border.all(
                             color: badgeTextColor ?? bevelShadowColor,
-                            width: 1.5,
+                            width: 1.8,
                           ),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.black.withOpacity(0.08),
-                              blurRadius: 5,
+                              color: Colors.black.withOpacity(0.1),
+                              blurRadius: 6,
                               offset: const Offset(0, 2),
                             ),
                           ],
@@ -412,9 +412,9 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
                           badgeText,
                           style: TextStyle(
                             color: badgeTextColor ?? bevelShadowColor,
-                            fontSize: 10,
+                            fontSize: 12,
                             fontWeight: FontWeight.w900,
-                            letterSpacing: 0.3,
+                            letterSpacing: 0.4,
                           ),
                         ),
                       ),
@@ -425,46 +425,57 @@ class _ParrotSeedNodeState extends State<ParrotSeedNode>
           ),
         ),
 
-        const SizedBox(height: 6),
+        const SizedBox(height: 8),
 
-        // Ders Başlığı Bilgi Kartı
-        Container(
-          constraints: const BoxConstraints(maxWidth: 165),
-          padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 5),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: widget.isUnlocked
-                  ? (isExam
-                      ? const Color(0xFFF59E0B)
-                      : (widget.isCompleted ? const Color(0xFF10B981) : const Color(0xFFE2E8F0)))
-                  : const Color(0xFFE2E8F0),
-              width: (isExam || widget.isCompleted) ? 1.6 : 1.2,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.04),
-                blurRadius: 6,
-                offset: const Offset(0, 2),
+        // Ders Başlığı Bilgi Kartı (Daha büyük, rahat okunan ve göze hitap eden)
+        Builder(
+          builder: (context) {
+            final isDark = Theme.of(context).brightness == Brightness.dark;
+            return Container(
+              constraints: const BoxConstraints(maxWidth: 200),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+              decoration: BoxDecoration(
+                color: isDark ? const Color(0xFF1E1E26) : Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: widget.isUnlocked
+                      ? (isExam
+                          ? const Color(0xFFF59E0B)
+                          : (widget.isCompleted
+                              ? const Color(0xFF10B981)
+                              : (isDark ? const Color(0xFF383848) : const Color(0xFFE2E8F0))))
+                      : (isDark ? const Color(0xFF2E2E38) : const Color(0xFFE2E8F0)),
+                  width: (isExam || widget.isCompleted) ? 2.0 : 1.4,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+                    blurRadius: 8,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
-            ],
-          ),
-          child: Text(
-            isExam ? '🏆 ${widget.lesson.title}' : widget.lesson.title,
-            textAlign: TextAlign.center,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-              fontSize: isExam ? 12 : 11.5,
-              fontWeight: isExam ? FontWeight.w900 : FontWeight.w800,
-              color: widget.isUnlocked
-                  ? (isExam
-                      ? const Color(0xFFB45309)
-                      : (widget.isCompleted ? const Color(0xFF047857) : const Color(0xFF1E293B)))
-                  : const Color(0xFF94A3B8),
-            ),
-          ),
+              child: Text(
+                isExam ? '🏆 ${widget.lesson.title}' : widget.lesson.title,
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: isExam ? 13.5 : 13.0,
+                  fontWeight: isExam ? FontWeight.w900 : FontWeight.w800,
+                  letterSpacing: 0.2,
+                  height: 1.25,
+                  color: widget.isUnlocked
+                      ? (isExam
+                          ? (isDark ? const Color(0xFFFCD34D) : const Color(0xFFB45309))
+                          : (widget.isCompleted
+                              ? (isDark ? const Color(0xFF6EE7B7) : const Color(0xFF047857))
+                              : (isDark ? const Color(0xFFF4F4F5) : const Color(0xFF1E293B))))
+                      : (isDark ? const Color(0xFF71717A) : const Color(0xFF94A3B8)),
+                ),
+              ),
+            );
+          },
         ),
       ],
     );

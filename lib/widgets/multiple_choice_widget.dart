@@ -19,6 +19,7 @@ class MultipleChoiceWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final options = question.options ?? [];
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 56),
@@ -31,16 +32,19 @@ class MultipleChoiceWidget extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               margin: const EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: const Color(0xFFF7F7F7),
+                color: isDark ? const Color(0xFF1E1E26) : const Color(0xFFF7F7F7),
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFFE5E5E5), width: 2),
+                border: Border.all(
+                  color: isDark ? const Color(0xFF2E2E3C) : const Color(0xFFE5E5E5),
+                  width: 2,
+                ),
               ),
               child: Text(
                 question.passage!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   height: 1.5,
-                  color: Color(0xFF4B4B4B),
+                  color: isDark ? const Color(0xFFE4E4E7) : const Color(0xFF4B4B4B),
                   fontStyle: FontStyle.italic,
                 ),
               ),
@@ -55,10 +59,10 @@ class MultipleChoiceWidget extends StatelessWidget {
           // Soru Metni
           Text(
             question.prompt,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              color: Color(0xFF4B4B4B),
+              color: isDark ? const Color(0xFFF4F4F5) : const Color(0xFF4B4B4B),
               height: 1.4,
             ),
           ),
@@ -70,24 +74,24 @@ class MultipleChoiceWidget extends StatelessWidget {
             final isCorrectAnswer = isChecked && index == question.correctIndex;
             final isWrongSelected = isChecked && isSelected && !isCorrectAnswer;
 
-            Color borderColor = const Color(0xFFE5E5E5);
-            Color bgColor = Colors.white;
-            Color textColor = const Color(0xFF4B4B4B);
+            Color borderColor = isDark ? const Color(0xFF2E2E3C) : const Color(0xFFE5E5E5);
+            Color bgColor = isDark ? const Color(0xFF1E1E26) : Colors.white;
+            Color textColor = isDark ? const Color(0xFFF4F4F5) : const Color(0xFF4B4B4B);
 
             if (isChecked) {
               if (isCorrectAnswer) {
-                borderColor = const Color(0xFF58CC02);
-                bgColor = const Color(0xFFD7FFB8);
-                textColor = const Color(0xFF58A700);
+                borderColor = const Color(0xFF10B981);
+                bgColor = isDark ? const Color(0xFF064E3B) : const Color(0xFFD7FFB8);
+                textColor = isDark ? const Color(0xFFA7F3D0) : const Color(0xFF58A700);
               } else if (isWrongSelected) {
                 borderColor = const Color(0xFFFF4B4B);
-                bgColor = const Color(0xFFFFDFE0);
-                textColor = const Color(0xFFEA2B2B);
+                bgColor = isDark ? const Color(0xFF450A0A) : const Color(0xFFFFDFE0);
+                textColor = isDark ? const Color(0xFFFECACA) : const Color(0xFFEA2B2B);
               }
             } else if (isSelected) {
-              borderColor = const Color(0xFF84D8FF);
-              bgColor = const Color(0xFFDDF4FF);
-              textColor = const Color(0xFF1899D6);
+              borderColor = const Color(0xFF8B5CF6);
+              bgColor = isDark ? const Color(0xFF2E1065) : const Color(0xFFEDE9FE);
+              textColor = isDark ? const Color(0xFFDDD6FE) : const Color(0xFF6D28D9);
             }
 
             return Padding(
@@ -119,12 +123,14 @@ class MultipleChoiceWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: isSelected || isCorrectAnswer ? borderColor : const Color(0xFFE5E5E5),
+                            color: isSelected || isCorrectAnswer
+                                ? borderColor
+                                : (isDark ? const Color(0xFF333342) : const Color(0xFFE5E5E5)),
                             width: 2,
                           ),
                           color: isSelected || isCorrectAnswer
                               ? borderColor
-                              : const Color(0xFFF7F7F7),
+                              : (isDark ? const Color(0xFF22222B) : const Color(0xFFF7F7F7)),
                         ),
                         child: Text(
                           String.fromCharCode(65 + index), // A, B, C, D
@@ -133,7 +139,7 @@ class MultipleChoiceWidget extends StatelessWidget {
                             fontSize: 16,
                             color: isSelected || isCorrectAnswer
                                 ? Colors.white
-                                : const Color(0xFF777777),
+                                : (isDark ? const Color(0xFFA1A1AA) : const Color(0xFF777777)),
                           ),
                         ),
                       ),

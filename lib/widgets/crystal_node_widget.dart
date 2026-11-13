@@ -2,7 +2,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import '../models/lesson_models.dart';
 
-/// 3D Parlayan Kristal İstasyon Düğümü (YKS Kristal Podu)
+/// 3D Parlayan Kristal İstasyon Düğümü (DGS Kristal Podu)
 /// Duolingo'nun klasik yuvarlak butonları yerine, çok yüzeyli, ışık kırılmalı ve neon parlamalı mücevher prizması.
 class CrystalLessonNode extends StatefulWidget {
   final Lesson lesson;
@@ -76,7 +76,7 @@ class _CrystalLessonNodeState extends State<CrystalLessonNode>
   @override
   Widget build(BuildContext context) {
     final isExam = widget.lesson.isUnitExam;
-    final double nodeSize = isExam ? 96.0 : 82.0;
+    final double nodeSize = isExam ? 116.0 : 96.0;
 
     // Renk ve Kristal Durum Belirleme
     Color primaryColor;

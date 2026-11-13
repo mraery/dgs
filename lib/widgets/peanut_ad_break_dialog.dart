@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/game_provider.dart';
+import '../services/ad_service.dart';
 import '../services/sound_service.dart';
 import 'premium_purchase_sheet.dart';
 
@@ -128,7 +129,7 @@ class PeanutAdBreakDialog extends StatelessWidget {
                       border: Border.all(color: const Color(0xFFE2E8F0)),
                     ),
                     child: const Text(
-                      'Üzgünüm ama reklam koymam lazım... 💛\n\nReklamları sevmediğini biliyorum ama YKSify\'ı ücretsiz ve kaliteli tutabilmek için reklamlara ihtiyacımız var.\n\nİstersen Premium\'a geçerek reklamlardan tamamen kurtulabilir ve sınırsız canla ders çalışabilirsin!',
+                      'Üzgünüm ama reklam koymam lazım... 💛\n\nReklamları sevmediğini biliyorum ama DGS Quest\'i ücretsiz ve kaliteli tutabilmek için reklamlara ihtiyacımız var.\n\nİstersen Super VIP\'e geçerek reklamlardan tamamen kurtulabilir ve sınırsız canla ders çalışabilirsin!',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 13.5,
@@ -158,7 +159,7 @@ class PeanutAdBreakDialog extends StatelessWidget {
                       label: const FittedBox(
                         fit: BoxFit.scaleDown,
                         child: Text(
-                          '👑 PREMİUM AL (SIFIR REKLAM)',
+                          '👑 SUPER VIP AL (SIFIR REKLAM)',
                           style: TextStyle(
                             fontSize: 14.5,
                             fontWeight: FontWeight.w900,
@@ -201,27 +202,39 @@ class PeanutAdBreakDialog extends StatelessWidget {
                         ),
                       ),
                       onPressed: () {
-                        ref.read(userProfileProvider.notifier).addGems(5);
-                        SoundService.playCorrect();
-                        Navigator.of(context).pop(false);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            content: const Row(
-                              children: [
-                                Text('🥜 ', style: TextStyle(fontSize: 18)),
-                                SizedBox(width: 6),
-                                Expanded(
-                                  child: Text(
-                                    'Papağan Fıstık desteğin için teşekkür ediyor! +5 💎 hesabına eklendi.',
-                                    style: TextStyle(fontWeight: FontWeight.bold),
+                        // Ödüllü geçiş reklamı: elmas yalnızca reklam sonuna kadar izlenirse verilir.
+                        AdService.instance.showRewardedInterstitialAd(
+                          onClosed: (earned) {
+                            if (!context.mounted) return;
+                            if (!earned) {
+                              Navigator.of(context).pop(false);
+                              return;
+                            }
+                            {
+                              ref.read(userProfileProvider.notifier).addGems(5);
+                              SoundService.playCorrect();
+                              Navigator.of(context).pop(false);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: const Row(
+                                    children: [
+                                      Text('🥜 ', style: TextStyle(fontSize: 18)),
+                                      SizedBox(width: 6),
+                                      Expanded(
+                                        child: Text(
+                                          'Papağan Fıstık desteğin için teşekkür ediyor! +5 💎 hesabına eklendi.',
+                                          style: TextStyle(fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
+                                    ],
                                   ),
+                                  backgroundColor: const Color(0xFFD97706),
+                                  behavior: SnackBarBehavior.floating,
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                                 ),
-                              ],
-                            ),
-                            backgroundColor: const Color(0xFFD97706),
-                            behavior: SnackBarBehavior.floating,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-                          ),
+                              );
+                            }
+                          },
                         );
                       },
                     ),

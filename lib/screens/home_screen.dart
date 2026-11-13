@@ -40,8 +40,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         return currentSection == 'TYT' ? !u.subject.startsWith('AYT') : u.subject.startsWith('AYT');
       } else if (activeExam.franchise == ExamFranchise.dgs) {
         return currentSection == 'Sayısal'
-            ? (u.subject.contains('Matematik') || u.subject.contains('Problem') || u.subject.contains('Geometri'))
-            : (u.subject.contains('Sözel') || u.subject.contains('Paragraf') || u.subject.contains('Mantık'));
+            ? (u.subject.contains('Matematik') || u.subject.contains('Problem') || u.subject.contains('Geometri') || u.subject.contains('Sayısal'))
+            : (u.subject.contains('Sözel') || u.subject.contains('Paragraf') || u.subject.contains('Türkçe'));
       } else if (activeExam.franchise == ExamFranchise.lgs) {
         return currentSection == 'Sayısal'
             ? (u.subject.contains('Matematik') || u.subject.contains('Fen'))
@@ -53,60 +53,52 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       }
     }).toList();
 
-    final filteredUnits = _selectedSubject == 'Tümü'
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Sadece bu bölümde (Sayısal/Sözel) ünitesi olan branşları göster.
+    // Önceden tüm branşlar her iki bölümde de görünüyordu; Sayısal'dayken "Paragraf"a
+    // basınca liste tamamen boş kalıyordu.
+    final sectionSubjects = activeExam.subjects
+        .where((s) => s['name'] == 'Tümü' || examUnits.any((u) => u.subject == s['name']))
+        .toList();
+    final effectiveSubject = sectionSubjects.any((s) => s['name'] == _selectedSubject)
+        ? _selectedSubject
+        : 'Tümü';
+
+    final filteredUnits = effectiveSubject == 'Tümü'
         ? examUnits
-        : examUnits.where((u) => u.subject == _selectedSubject).toList();
+        : examUnits.where((u) => u.subject == effectiveSubject).toList();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFAF8F5), // Sıcak vanilya / doğal zemin
+      backgroundColor: isDark ? const Color(0xFF121216) : const Color(0xFFFAF8F5),
       appBar: const StatsBar(),
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            children: [
-              // Sınav Bölümü Seçim Segmenti (TYT/AYT, Sayısal/Sözel vb.)
-              _buildExamSwitcher(activeExam, allUnits, currentSection),
+          // Sınav Bölümü Seçim Segmenti (Sayısal / Sözel)
+          _buildExamSwitcher(activeExam, allUnits, currentSection),
 
-              // Branş Filtreleme Çubuğu (Tatlı Kapsüller)
-              _buildSubjectFilterBar(activeExam),
+          // Branş Filtreleme Çubuğu (Tatlı Kapsüller)
+          _buildSubjectFilterBar(activeExam, sectionSubjects, effectiveSubject),
 
-              // Zeki Paşa'nın Yemlik & Koçluk Kartı
-              _buildParrotCoachCard(userProfile, activeExam),
-
-              // Sevimli Tohum Yolu Haritası
-              Expanded(
-                child: ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 64, top: 4),
-                  itemCount: filteredUnits.length,
-                  itemBuilder: (context, unitIndex) {
-                    final unit = filteredUnits[unitIndex];
-                    return _buildUnitSection(context, unitIndex, unit, userProfile);
-                  },
-                ),
-              ),
-            ],
-          ),
-          // Sağ Alt: Minimal Alpha Rozeti
-          Positioned(
-            bottom: 8,
-            right: 8,
-            child: IgnorePointer(
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.black.withOpacity(0.35),
-                  borderRadius: BorderRadius.circular(6),
-                ),
-                child: const Text(
-                  'Alpha',
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 9,
-                    fontWeight: FontWeight.w600,
-                    letterSpacing: 0.3,
-                  ),
-                ),
-              ),
+          // Sevimli Tohum Yolu Haritası
+          // Koç kartı artık listenin ilk elemanı: küçük ekranlarda sabit kalıp
+          // ünitelerin görüneceği alanı yemiyor, liste ile birlikte kayıyor.
+          Expanded(
+            child: ListView.builder(
+              key: PageStorageKey('units_${currentSection}_$effectiveSubject'),
+              padding: const EdgeInsets.only(bottom: 96, top: 2),
+              itemCount: filteredUnits.isEmpty ? 2 : filteredUnits.length + 1,
+              itemBuilder: (context, index) {
+                if (index == 0) {
+                  return _buildParrotCoachCard(userProfile, activeExam);
+                }
+                if (filteredUnits.isEmpty) {
+                  return _buildEmptySectionState(isDark);
+                }
+                final unitIndex = index - 1;
+                final unit = filteredUnits[unitIndex];
+                return _buildUnitSection(context, unitIndex, unit, userProfile);
+              },
             ),
           ),
         ],
@@ -115,13 +107,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   }
 
   Widget _buildExamSwitcher(ExamConfig activeExam, List<LearningUnit> allUnits, String currentSection) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+
     return Container(
-      margin: const EdgeInsets.fromLTRB(16, 10, 16, 4),
+      margin: const EdgeInsets.fromLTRB(16, 8, 16, 6),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: const Color(0xFFECE7E1),
+        color: isDark ? const Color(0xFF1E1E26) : const Color(0xFFECE7E1),
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFE2DBD0), width: 1),
+        border: Border.all(
+          color: isDark ? const Color(0xFF2E2E3C) : const Color(0xFFE2DBD0),
+          width: 1,
+        ),
       ),
       child: Row(
         children: activeExam.sections.map((sec) {
@@ -130,8 +127,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               return sec == 'TYT' ? !u.subject.startsWith('AYT') : u.subject.startsWith('AYT');
             } else if (activeExam.franchise == ExamFranchise.dgs) {
               return sec == 'Sayısal'
-                  ? (u.subject.contains('Matematik') || u.subject.contains('Problem') || u.subject.contains('Geometri'))
-                  : (u.subject.contains('Sözel') || u.subject.contains('Paragraf') || u.subject.contains('Mantık'));
+                  ? (u.subject.contains('Matematik') || u.subject.contains('Problem') || u.subject.contains('Geometri') || u.subject.contains('Sayısal'))
+                  : (u.subject.contains('Sözel') || u.subject.contains('Paragraf') || u.subject.contains('Türkçe'));
             } else if (activeExam.franchise == ExamFranchise.lgs) {
               return sec == 'Sayısal'
                   ? (u.subject.contains('Matematik') || u.subject.contains('Fen'))
@@ -153,6 +150,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               icon: (sec.contains('Sayısal') || sec == 'TYT' || sec == 'Genel Yetenek') ? '🎯' : '🚀',
               activeColor: (sec.contains('Sayısal') || sec == 'TYT' || sec == 'Genel Yetenek') ? activeExam.primaryColor : activeExam.secondaryColor,
               isSelected: isSelected,
+              isDark: isDark,
             ),
           );
         }).toList(),
@@ -167,6 +165,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     required String icon,
     required Color activeColor,
     required bool isSelected,
+    required bool isDark,
   }) {
     return InkWell(
       onTap: () {
@@ -183,12 +182,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         curve: Curves.easeInOut,
         padding: const EdgeInsets.symmetric(vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? Colors.white : Colors.transparent,
+          color: isSelected
+              ? (isDark ? const Color(0xFF2E2E3A) : Colors.white)
+              : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.08),
+                    color: Colors.black.withOpacity(isDark ? 0.25 : 0.08),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -205,7 +206,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w900,
-                color: isSelected ? activeColor : const Color(0xFF78716C),
+                color: isSelected ? activeColor : (isDark ? const Color(0xFFA1A1AA) : const Color(0xFF78716C)),
               ),
             ),
             const SizedBox(width: 6),
@@ -232,16 +233,45 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget _buildSubjectFilterBar(ExamConfig activeExam) {
-    final currentSubjects = activeExam.subjects;
-
-    return Container(
-      height: 52,
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: Color(0xFFF1ECE4), width: 1.5)),
+  Widget _buildEmptySectionState(bool isDark) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+      child: Column(
+        children: [
+          const Text('🦜', style: TextStyle(fontSize: 48)),
+          const SizedBox(height: 12),
+          Text(
+            'Bu bölümde henüz ünite yok',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w900,
+              color: isDark ? const Color(0xFFF4F4F5) : const Color(0xFF292524),
+            ),
+          ),
+          const SizedBox(height: 6),
+          const Text(
+            'Zeki Paşa yeni konular hazırlıyor. Şimdilik "Tümü" sekmesinden devam edebilirsin!',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: Color(0xFF78716C)),
+          ),
+          const SizedBox(height: 14),
+          TextButton(
+            onPressed: () => setState(() => _selectedSubject = 'Tümü'),
+            child: const Text('Tümünü Göster', style: TextStyle(fontWeight: FontWeight.w900)),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget _buildSubjectFilterBar(
+    ExamConfig activeExam,
+    List<Map<String, String>> currentSubjects,
+    String selectedSubject,
+  ) {
+    return SizedBox(
+      height: 44,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -251,9 +281,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           final item = currentSubjects[index];
           final name = item['name']!;
           final icon = item['icon']!;
-          final isSelected = _selectedSubject == name;
+          final isSelected = selectedSubject == name;
 
           final activeColor = activeExam.primaryColor;
+          final isDark = Theme.of(context).brightness == Brightness.dark;
 
           return InkWell(
             onTap: () {
@@ -266,7 +297,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               duration: const Duration(milliseconds: 180),
               padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 5),
               decoration: BoxDecoration(
-                color: isSelected ? activeColor : const Color(0xFFFBF8F3),
+                color: isSelected
+                    ? activeColor
+                    : (isDark ? const Color(0xFF22222B) : const Color(0xFFFBF8F3)),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: isSelected
                     ? [
@@ -278,7 +311,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ]
                     : null,
                 border: Border.all(
-                  color: isSelected ? activeColor : const Color(0xFFEADBCE),
+                  color: isSelected
+                      ? activeColor
+                      : (isDark ? const Color(0xFF333340) : const Color(0xFFEADBCE)),
                   width: 1.2,
                 ),
               ),
@@ -292,7 +327,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     style: TextStyle(
                       fontSize: 12,
                       fontWeight: FontWeight.w800,
-                      color: isSelected ? Colors.white : const Color(0xFF4B382A),
+                      color: isSelected
+                          ? Colors.white
+                          : (isDark ? const Color(0xFFD4D4D8) : const Color(0xFF4B382A)),
                     ),
                   ),
                 ],
@@ -306,6 +343,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   Widget _buildParrotCoachCard(UserProfile profile, ExamConfig activeExam) {
     final completedCount = profile.completedLessonIds.length;
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Material(
       color: Colors.transparent,
@@ -313,15 +351,18 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         onTap: () => SplashMascotScreen.show(context),
         borderRadius: BorderRadius.circular(20),
         child: Container(
-          margin: const EdgeInsets.fromLTRB(16, 10, 16, 8),
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          margin: const EdgeInsets.fromLTRB(16, 6, 16, 8),
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: isDark ? const Color(0xFF1E1E26) : Colors.white,
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: const Color(0xFFF1ECE4), width: 1.5),
+            border: Border.all(
+              color: isDark ? const Color(0xFF2E2E3C) : const Color(0xFFEDE8E0),
+              width: 1.5,
+            ),
             boxShadow: [
               BoxShadow(
-                color: const Color(0xFFD97706).withOpacity(0.06),
+                color: Colors.black.withOpacity(isDark ? 0.2 : 0.04),
                 blurRadius: 10,
                 offset: const Offset(0, 3),
               ),
@@ -330,11 +371,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           child: Row(
             children: [
               ParrotMascotWidget(
-                size: 64,
+                size: 74,
                 mood: ParrotMood.idle,
                 hasCrown: profile.isPremium,
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -342,17 +383,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Row(
                       children: [
-                        const Text(
+                        Text(
                           'Zeki Paşa',
                           style: TextStyle(
-                            fontSize: 15,
+                            fontSize: 16.5,
                             fontWeight: FontWeight.w900,
-                            color: Color(0xFF292524),
+                            color: isDark ? const Color(0xFFF4F4F5) : const Color(0xFF292524),
                           ),
                         ),
                         const SizedBox(width: 6),
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 2),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2.5),
                           decoration: BoxDecoration(
                             gradient: profile.isPremium
                                 ? const LinearGradient(
@@ -364,10 +405,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: Text(
-                            profile.isPremium ? 'SUPER PREMİUM 👑' : '${activeExam.shortTitle} KOÇU 🎓',
+                            profile.isPremium ? 'SUPER VIP 👑' : '${activeExam.shortTitle} KOÇU 🎓',
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 9.5,
+                              fontSize: 10,
                               fontWeight: FontWeight.w900,
                               letterSpacing: 0.3,
                             ),
@@ -440,6 +481,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     UserProfile profile,
   ) {
     final unitColor = Color(unit.colorHex);
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
     return Column(
       children: [
@@ -470,17 +512,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.22),
-                        borderRadius: BorderRadius.circular(8),
+                        color: Colors.white.withOpacity(0.24),
+                        borderRadius: BorderRadius.circular(10),
                       ),
                       child: Text(
                         'ÜNİTE ${unit.unitNumber} • ${unit.subject.toUpperCase()}',
                         style: const TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.w900,
-                          fontSize: 10.5,
+                          fontSize: 11.5,
                           letterSpacing: 0.8,
                         ),
                       ),
@@ -491,16 +533,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w900,
-                        fontSize: 18,
+                        fontSize: 20,
+                        letterSpacing: 0.2,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 4),
                     Text(
                       '${unit.lessons.length} Konu • Başarıya İlerle 🌻',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.9),
-                        fontWeight: FontWeight.w600,
-                        fontSize: 12,
+                        color: Colors.white.withOpacity(0.92),
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
                       ),
                     ),
                   ],
@@ -563,8 +606,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 (prevScore != null && prevScore >= 50.0);
           }
 
-          // Kıvrımlı yol dağılımı: 0 -> 0, 1 -> +38, 2 -> 0, 3 -> -38
-          final offsets = [0.0, 38.0, 0.0, -38.0];
+          // Kıvrımlı yol dağılımı: 0 -> 0, 1 -> +44, 2 -> 0, 3 -> -44
+          final offsets = [0.0, 44.0, 0.0, -44.0];
           final xOffset = lesson.isUnitExam ? 0.0 : offsets[lessonIndex % offsets.length];
 
           return Column(
@@ -572,20 +615,29 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
               // Basamaklar Arası Bağlantı Yolu (Duolingo Stili Stepping Trail)
               if (lessonIndex > 0)
                 Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 2),
+                  padding: const EdgeInsets.symmetric(vertical: 4),
                   child: Column(
                     children: List.generate(3, (dotIndex) {
-                      final dotSize = dotIndex == 1 ? 7.0 : 5.0;
+                      final dotSize = dotIndex == 1 ? 12.0 : 9.0;
                       return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 2.5),
+                        padding: const EdgeInsets.symmetric(vertical: 3.5),
                         child: Container(
                           width: dotSize,
                           height: dotSize,
                           decoration: BoxDecoration(
                             color: isUnlocked
-                                ? unitColor.withOpacity(0.40 + (dotIndex * 0.15))
-                                : const Color(0xFFCBD5E1),
+                                ? unitColor.withOpacity(0.45 + (dotIndex * 0.20))
+                                : (isDark ? const Color(0xFF333342) : const Color(0xFFCBD5E1)),
                             shape: BoxShape.circle,
+                            boxShadow: isUnlocked
+                                ? [
+                                    BoxShadow(
+                                      color: unitColor.withOpacity(0.3),
+                                      blurRadius: 6,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ]
+                                : null,
                           ),
                         ),
                       );
@@ -593,9 +645,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
 
-              // 3D Öğrenme Basamağı
+              // 3D Öğrenme Basamağı (Büyük, Göz Alıcı Yuvarlak Düğüm)
               Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
+                padding: const EdgeInsets.symmetric(vertical: 10),
                 child: Transform.translate(
                   offset: Offset(xOffset, 0),
                   child: ParrotSeedNode(
@@ -900,16 +952,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 }
 
                 Lesson activeLesson = lesson;
+                Navigator.of(ctx).pop();
+
                 if (activeLesson.questions.isEmpty) {
                   final downloadedUnit = await UnitDownloadDialog.show(
                     context,
                     repoName: activeExam.franchise.name,
                     skeleton: unit,
                   );
-                  if (downloadedUnit == null) {
+                  if (downloadedUnit == null || !context.mounted) {
                     return;
                   }
-                  if (!context.mounted) return;
                   ref
                       .read(currentUnitsProvider.notifier)
                       .updateUnit(downloadedUnit);
@@ -919,7 +972,30 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   );
                 }
 
-                Navigator.of(ctx).pop();
+                if (!context.mounted || activeLesson.questions.isEmpty) {
+                  return;
+                }
+
+                // 50.000+ Soru Bankasından her seans için 15 (sınavda 20) taze soru seç
+                if (activeLesson.questions.length > 20) {
+                  final hasConcept = activeLesson.questions.isNotEmpty &&
+                      activeLesson.questions.first.type == QuestionType.conceptCard;
+                  final pool = List<Question>.from(
+                      hasConcept ? activeLesson.questions.skip(1) : activeLesson.questions)
+                    ..shuffle();
+                  final targetCount = activeLesson.isUnitExam ? 20 : 14;
+                  final selected = pool.take(targetCount).toList();
+                  activeLesson = Lesson(
+                    id: activeLesson.id,
+                    title: activeLesson.title,
+                    description: activeLesson.description,
+                    xpReward: activeLesson.xpReward,
+                    gemReward: activeLesson.gemReward,
+                    questions: hasConcept ? [activeLesson.questions.first, ...selected] : selected,
+                    isUnitExam: activeLesson.isUnitExam,
+                  );
+                }
+
                 Navigator.of(context).push(
                   MaterialPageRoute(
                     builder: (_) => QuizScreen(lesson: activeLesson),
