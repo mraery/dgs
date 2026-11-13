@@ -16,6 +16,21 @@
 
 ---
 
+## 📥 Güncel APK İndir (v2.1.0)
+
+<p align="center">
+  <a href="https://github.com/mraery/dgs/releases/download/v2.1.0/DGS_Quest.apk">
+    <img src="https://img.shields.io/badge/📥_Hemen_İndir-DGS__Quest.apk_(75.8_MB)-2ea44f?style=for-the-badge&logo=android" alt="DGS Quest APK İndir" height="48" />
+  </a>
+</p>
+
+> **⚡ Hızlı İndirme Linkleri:**
+> - [📥 **DGS_Quest.apk İndir (v2.1.0 - 75.8 MB)**](https://github.com/mraery/dgs/releases/download/v2.1.0/DGS_Quest.apk)
+> - [📦 **GitHub Sürümler & Değişiklik Günlüğü (Releases)**](https://github.com/mraery/dgs/releases/tag/v2.1.0)
+> - [📁 **Depo İçi APK Dosyası (apks/)**](https://github.com/mraery/dgs/raw/main/apks/dgs_quest.apk)
+
+---
+
 ## 📖 Genel Bakış
 
 **DGS Quest**, ön lisans mezunlarının lisans programlarına geçişini sağlayan Dikey Geçiş Sınavı'na (DGS) hazırlanan adaylar için özel olarak geliştirilmiş oyunlaştırılmış bir mobil eğitim platformudur.
